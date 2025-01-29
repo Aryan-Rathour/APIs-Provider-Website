@@ -1,0 +1,117 @@
+.container {
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+    background-color: #f9f9f9;
+    color: #333;
+    padding-left: 10%;
+  padding-right: 10%;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.animationSection {
+    display: flex;
+    justify-content: space-between;
+}
+
+.gifContainer {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+}
+
+.gif {
+    width: 70%;
+    max-height: 400px;
+    object-fit: cover;
+}
+
+/* Style for the code box container */
+.codeBoxContainer {
+    background-color: black; /* Set the background of the entire container to black */
+    color: white; /* Set default text color to white */
+    padding: 20px;
+    border-radius: 8px;
+    position: relative; /* Ensure copy icon is positioned correctly */
+}
+
+/* Style for the tabs */
+.tabs {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.tabs button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: transparent; /* Make background transparent */
+    color: white; /* Set text color to white */
+    transition: all 0.3s ease;
+}
+
+.tabs button:hover {
+    background-color: #333; /* Change background color when hovered */
+}
+
+/* Active tab styling */
+.activeTab {
+    background-color: #0056b3; /* Active tab background color */
+    color: black; /* Active tab text color */
+    transform: scale(1.05);  /* Tab gets slightly larger when active */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Soft shadow for active tab */
+    transition: all 0.3s ease;
+}
+
+/* Code box */
+.codeBox {
+    width: 100%;
+    height: 300px;
+    overflow-y: auto;
+    background-color: #272822; /* Set background of code box to dark color */
+    color: white;
+    padding: 20px;
+    border-radius: 8px 8px 0px 0px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+/* Style for copy icon */
+.copyIconContainer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    cursor: pointer;
+}
+
+.copyIcon {
+    width: 24px;
+    height: 24px;
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+.copyIcon:hover {
+    color: #0056b3;
+}
+
+@keyframes tabAnimation {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+/* Optional: if you want to add animation when switching tabs */
+.tabs button:focus {
+    animation: tabAnimation 0.3s ease;
+}
