@@ -93,7 +93,7 @@ fetch(url, options)
       <div className="flex pl-60 pt-4">
         <div className="flex-1 w-5/6 px-12">
           <header className="text-center py-4 px-4">
-            <h1 className="text-4xl font-semibold text-purple-600 mb-4">
+            <h1 className=" text-4xl font-semibold text-purple-600 mb-4" style={{ fontFamily: 'Roboto, sans-serif' }}>
               API Documentation
             </h1>
             <p className="text-lg text-gray-600">

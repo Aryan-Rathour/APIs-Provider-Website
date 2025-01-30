@@ -70,8 +70,8 @@ const Navbar = () => {
         <div className="flex justify-center">
           <div className="bg-indigo-800 text-white rounded-full shadow-lg px-6 py-2 flex items-center justify-between w-full max-w-lg">
             <Link href="/">
-              <div className="flex items-center justify-center bg-black rounded-full w-10 h-10">
-                <Image src="/image (1).png" alt="Logo" width={20} height={20} />
+              <div className="flex items-center justify-center  rounded-full w-10 h-10">
+                <Image src="/image (1).png" alt="Logo" width={40} height={40} />
               </div>
             </Link>
             <div className="flex items-center space-x-6">
@@ -102,11 +102,11 @@ const Navbar = () => {
                           {filteredApis.map((api) => (
                             <Link key={api.name} href={api.link}>
                               <div className="group relative cursor-pointer">
-                                <div className="bg-white rounded-lg p-4 hover:shadow-lg transition-shadow duration-200">
-                                  <h4 className="font-medium text-sm">
+                                <div className="bg-white rounded-lg p-2 hover:shadow-lg transition-shadow duration-200">
+                                  <h4 className="font-medium text-sm text-blue-900">
                                     {api.name}
                                   </h4>
-                                  <p className="text-sm text-gray-500 mt-1">
+                                  <p className="text-xs text-blue-900 mt-1">
                                     {api.description}
                                   </p>
                                 </div>
