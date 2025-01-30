@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { useState } from 'react';
 import Login from './logIn';
 import SignUp from './signUp';
-import Sidebar from '@/components/ui/sidebar';
 
 export default function HeroSection() {
 
@@ -16,11 +15,6 @@ export default function HeroSection() {
     
   return (
     <section className="flex flex-col md:flex-row items-center justify-between px-6 md:px-24 py-16 bg-white">
-      <div className='z-index'>
-
-      <Sidebar/>
-
-      </div>
       <div className="max-w-4xl">
         {/* Heading with better hierarchy and spacing */}
         <h1 className="text-5xl md:text-6xl font-bold text-[#06092D] py-6 leading-tight">

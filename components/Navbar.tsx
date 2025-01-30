@@ -65,8 +65,8 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white-100 pt-4 w-full">
-      <div className="w-full px-4 sm:px-6 lg:px-8">
+    <nav className="bg-white-100 pt-4">
+      <div className=" px-4 sm:px-6 lg:px-8">
         <div className="flex justify-center">
           <div className="bg-indigo-800 text-white rounded-full shadow-lg px-6 py-2 flex items-center justify-between w-full max-w-lg">
             <Link href="/">
