@@ -6,13 +6,20 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import HeroSection from "@/pages/home"
+import { useEffect } from "react"
+import ScrollToTop from "@/components/ui/ScrollToTop"
+
 
 
 export default function Home() {
 
   return (
     <div className="w-full bg-soft-white">
-  <Navbar />
+      <ScrollToTop/>
+      <div className="sticky top-0 z-10">
+      <Navbar />
+
+      </div>
   <div className="container mx-auto px-8"> {/* Adjusted px-8 */}
 
     <HeroSection/>

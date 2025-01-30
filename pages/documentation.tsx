@@ -3,11 +3,27 @@ import Navbar from "@/components/Navbar";
 import { Clipboard, Check } from "lucide-react";
 import dummyData from "../app/apis/DummyData/dummyData.js";
 import Image from "next/image";
+import { useRouter } from 'next/navigation';
+import ScrollToTop from "../components/ui/ScrollToTop.jsx";
+import Sidebar from "@/components/ui/sidebar";
+
 
 const Docs = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("python");
   const [isCopied, setIsCopied] = useState(false);
   const [showJson, setShowJson] = useState(false);
+
+
+  const router = useRouter();
+
+  useEffect(() => {
+    // Check if user is authenticated
+    const isAuthenticated = localStorage.getItem('userEmail');  // Adjust as per your token storage
+    if (!isAuthenticated) {
+      router.push('/logIn');  // Redirect to login if not authenticated
+    }
+  }, []);
+
 
   const codeSnippets = {
     python: `import requests
@@ -73,8 +89,15 @@ fetch(url, options)
   };
 
   return (
-    <div className="bg-gray-50 px-32">
+    <div>
       <Navbar />
+
+      <Sidebar/>
+
+    
+    <div className="bg-gray-50 px-32">
+      <ScrollToTop/>
+      
       <header className="text-center py-4 px-4">
         <h1 className="text-4xl font-semibold text-purple-600 mb-4">
           API Documentation
@@ -201,51 +224,44 @@ fetch(url, options)
       </section>
 
       <section className="px-6 py-6">
-        <div className="flex space-x-4">
-          <button
-            className={`${
-              selectedLanguage === "python" ? "bg-indigo-600 text-white" : "bg-gray-200"
-            } py-2 px-4 rounded-lg focus:outline-none`}
-            onClick={() => setSelectedLanguage("python")}
-          >
-            Python
-          </button>
-          <button
-            className={`${
-              selectedLanguage === "javascript" ? "bg-indigo-600 text-white" : "bg-gray-200"
-            } py-2 px-4 rounded-lg focus:outline-none`}
-            onClick={() => setSelectedLanguage("javascript")}
-          >
-            Node.js
-          </button>
-          <button
-            className={`${
-              selectedLanguage === "javascriptBrowser" ? "bg-indigo-600 text-white" : "bg-gray-200"
-            } py-2 px-4 rounded-lg focus:outline-none`}
-            onClick={() => setSelectedLanguage("javascriptBrowser")}
-          >
-            JavaScript (Browser)
-          </button>
-        </div>
+  <div className="mt-6 bg-gray-800 p-6 rounded-lg">
+    <div className="flex justify-between mb-4">
+      <div className="flex space-x-4">
+        <button
+          className={`${
+            selectedLanguage === "python" ? "bg-indigo-600 text-white" : "bg-gray-200"
+          } py-2 px-4 rounded-lg focus:outline-none`}
+          onClick={() => setSelectedLanguage("python")}
+        >
+          Python
+        </button>
+        <button
+          className={`${
+            selectedLanguage === "javascript" ? "bg-indigo-600 text-white" : "bg-gray-200"
+          } py-2 px-4 rounded-lg focus:outline-none`}
+          onClick={() => setSelectedLanguage("javascript")}
+        >
+          Node.js
+        </button>
+        <button
+          className={`${
+            selectedLanguage === "javascriptBrowser" ? "bg-indigo-600 text-white" : "bg-gray-200"
+          } py-2 px-4 rounded-lg focus:outline-none`}
+          onClick={() => setSelectedLanguage("javascriptBrowser")}
+        >
+          JavaScript (Browser)
+        </button>
+      </div>
+      <button className="text-white" onClick={handleCopy}>
+        {isCopied ? <Check className="w-6 h-6" /> : <Clipboard className="w-6 h-6" />}
+      </button>
+    </div>
+    <pre className="text-white overflow-x-auto">
+      <code>{codeSnippets[selectedLanguage]}</code>
+    </pre>
+  </div>
+</section>
 
-        <div className="mt-6 bg-gray-800 p-6 rounded-lg">
-          <div className="flex justify-end mb-4">
-            <button
-              className="text-white"
-              onClick={handleCopy}
-            >
-              {isCopied ? (
-                <Check className="w-6 h-6" />
-              ) : (
-                <Clipboard className="w-6 h-6" />
-              )}
-            </button>
-          </div>
-          <pre className="text-white overflow-x-auto">
-            <code>{codeSnippets[selectedLanguage]}</code>
-          </pre>
-        </div>
-      </section>
 
       <button
         className="bg-indigo-600 text-white py-3 px-6 rounded-lg mt-8 mx-auto block"
@@ -267,6 +283,7 @@ fetch(url, options)
           <strong>API-KEY-1234567890</strong>
         </div>
       </section>
+    </div>
     </div>
   );
 };

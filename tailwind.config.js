@@ -19,6 +19,19 @@ module.exports = {
         'beige': '#F6F4EC',
         'lime-green': '#A0D911',
       },
+      animation: {
+        typing: 'typing 3.5s steps(40) 1s 1 normal both',
+        'blink-caret': 'blink-caret 0.75s step-end infinite',
+      },
+      keyframes: {
+        typing: {
+          '0%': { width: '0%' },
+          '100%': { width: '100%' },
+        },
+        'blink-caret': {
+          '50%': { borderColor: 'transparent' },
+        },
+      },
     },
   },
   plugins: [],

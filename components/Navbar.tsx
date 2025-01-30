@@ -43,7 +43,6 @@ const Navbar = () => {
   const [userEmail, setUserEmail] = useState(null);
   const [modalPosition, setModalPosition] = useState("top-right"); // default position
 
-
   const filteredApis = apis.filter(
     (api) =>
       api.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -58,13 +57,12 @@ const Navbar = () => {
       setUserEmail(storedEmail);
     }
   }, []); // Empty dependency array ensures it only runs once after the initial render
-  
+
   const extractFirstLetter = (email) => {
     if (!email) return "";
     const firstName = email.split("@")[0]; // Just get the first part of the email
     return firstName.charAt(0).toUpperCase();
   };
-  
 
   return (
     <nav className="bg-white-100 pt-4 w-full">
@@ -77,34 +75,30 @@ const Navbar = () => {
               </div>
             </Link>
             <div className="flex items-center space-x-6">
+              {" "}
+              {/* Increased spacing here */}
               <NavigationMenu>
-                <NavigationMenuList className="flex space-x-6 text-black font-medium">
-                  <NavigationMenuItem className="text-white relative mx-4">
-                    <Link href="/pricing">Pricing</Link>
+                <NavigationMenuList className="flex text-black font-medium justify-between w-full max-w-lg mx-auto">
+                  <NavigationMenuItem className="flex-grow text-center">
                     <NavigationMenuTrigger className="text-white hover:text-blue-600 transition-colors">
                       APIs
                     </NavigationMenuTrigger>
-                    <Link href="/documentation" className="mx-4">Docs</Link>
-                    <Link href="/contactUs" className="mx-4">Contact us</Link>
-                    {/* Dropdown content */}
-                    <NavigationMenuContent className="absolute left-1/2 transform -translate-x-1/2 bg-yellow-500 shadow-md rounded-lg z-50">
+                    <NavigationMenuContent className="absolute left-1/2 transform -translate-x-1/2 bg-blue-300 shadow-md rounded-lg z-50">
                       <div className="w-[800px] p-6">
-                        <div className="mb-6">
-                          <h3 className="text-lg font-semibold mb-2 text-center">
-                            APIs TO LOOK UP
-                          </h3>
-                          <div className="relative">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                            <Input
-                              type="search"
-                              placeholder="Search APIs..."
-                              value={searchTerm}
-                              onChange={(e) => setSearchTerm(e.target.value)}
-                              className="pl-10"
-                            />
-                          </div>
+                        <h3 className="text-lg font-semibold mb-2 text-center">
+                          APIs TO LOOK UP
+                        </h3>
+                        <div className="relative">
+                          <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                          <input
+                            type="search"
+                            placeholder="Search APIs..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="pl-10 pr-4 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                          />
                         </div>
-                        <div className="grid grid-cols-3 gap-4">
+                        <div className="grid grid-cols-3 gap-4 mt-4">
                           {filteredApis.map((api) => (
                             <Link key={api.name} href={api.link}>
                               <div className="group relative cursor-pointer">
@@ -123,17 +117,55 @@ const Navbar = () => {
                       </div>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
+
+                  {/* Other menu items */}
+                  <NavigationMenuItem className="flex-grow text-center">
+                    <Link
+                      href="/pricing"
+                      className="text-white hover:text-blue-600 transition-colors mr-3"
+                    >
+                      Pricing
+                    </Link>
+                  </NavigationMenuItem>
+
+                  <NavigationMenuItem className="flex-grow text-center">
+                    <Link
+                      href="/documentation"
+                      className="text-white hover:text-blue-600 transition-colors mx-3"
+                    >
+                      Docs
+                    </Link>
+                  </NavigationMenuItem>
+
+                  <NavigationMenuItem className="flex-grow text-center">
+                    <Link
+                      href="https://blogswipe-shivank63s-projects.vercel.app/"
+                      target="_blank"
+                      className="text-white hover:text-blue-600 transition-colors mx-3"
+                    >
+                      Blogs
+                    </Link>
+                  </NavigationMenuItem>
+
+                  <NavigationMenuItem className="flex-grow text-center">
+                    <Link
+                      href="/contactUs"
+                      className="text-white hover:text-blue-600 transition-colors mr-3"
+                    >
+                      Contact Us
+                    </Link>
+                  </NavigationMenuItem>
                 </NavigationMenuList>
               </NavigationMenu>
             </div>
+
             {/* Conditional display of first letter if logged in */}
             {userEmail ? (
-              <Link href='/profile'>
+              <Link href="/profile">
                 <span className="ml-auto bg-purple-600 text-white rounded-full w-8 h-8 flex items-center justify-center">
-                {extractFirstLetter(userEmail)}
-              </span>
+                  {extractFirstLetter(userEmail)}
+                </span>
               </Link>
-              
             ) : (
               <button
                 onClick={() => setShowLogin(true)}
@@ -153,8 +185,12 @@ const Navbar = () => {
             {/* Close Button */}
             <button
               onClick={() => setShowLogin(false)}
-              className={`absolute ${modalPosition === "top-right" ? "bottom-56 right-4" : "bottom-80 right-80"} text-gray-600 hover:text-gray-900 text-xl font-bold z-50`}
-              >
+              className={`absolute ${
+                modalPosition === "top-right"
+                  ? "bottom-56 right-4"
+                  : "bottom-80 right-80"
+              } text-gray-600 hover:text-gray-900 text-xl font-bold z-50`}
+            >
               ✕
             </button>
             <div className="mt-4">
@@ -166,5 +202,22 @@ const Navbar = () => {
     </nav>
   );
 };
+
+const SearchIcon = ({ className }) => (
+  <svg
+    className={className}
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+    ></path>
+  </svg>
+);
 
 export default Navbar;
