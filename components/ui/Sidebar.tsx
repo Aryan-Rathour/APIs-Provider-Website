@@ -1,59 +1,74 @@
 // components/Sidebar.js
 
+import Link from "next/link";
+
 import { useState } from "react";
 
 const categories = [
   {
     name: "Weather APIs",
-    subcategories: ["Current Weather", "Forecast", "Historical Data"]
+    subcategories: [
+      { name: "Current Weather", url: "/weather/current-weather" },
+      { name: "Forecast", url: "/weather/forecast" },
+      { name: "Historical Data", url: "/weather/historical-data" },
+      { name: "Severe Alerts", url: "/weather/severe-alerts" },
+      { name: "Air Quality", url: "/weather/air-quality" },
+    ],
   },
   {
     name: "Social Media APIs",
-    subcategories: ["Twitter API", "Instagram API", "Facebook API"]
+    subcategories: [
+      { name: "Twitter API", url: "/social-media/twitter-api" },
+      { name: "Instagram API", url: "/social-media/instagram-api" },
+      { name: "Facebook API", url: "/social-media/facebook-api" },
+      { name: "LinkedIn API", url: "/social-media/linkedin-api" },
+      { name: "YouTube API", url: "/social-media/youtube-api" },
+    ],
   },
   {
     name: "Finance APIs",
-    subcategories: ["Stock Market", "Cryptocurrency", "Exchange Rates"]
+    subcategories: [
+      { name: "Stock Market", url: "/finance/stock-market" },
+      { name: "Cryptocurrency", url: "/finance/cryptocurrency" },
+      { name: "Exchange Rates", url: "/finance/exchange-rates" },
+      { name: "Banking Data", url: "/finance/banking-data" },
+      { name: "Payment Gateway", url: "/finance/payment-gateway" },
+    ],
   },
   {
     name: "Geolocation APIs",
-    subcategories: ["IP Geolocation", "Location Map"]
+    subcategories: [
+      { name: "IP Geolocation", url: "/geolocation/ip-geolocation" },
+      { name: "Location Map", url: "/geolocation/location-map" },
+      { name: "Reverse Geocoding", url: "/geolocation/reverse-geocoding" },
+      { name: "Time Zone Info", url: "/geolocation/time-zone-info" },
+    ],
   },
   {
     name: "News APIs",
-    subcategories: ["Global News", "Local News"]
+    subcategories: [
+      { name: "Global News", url: "/news/global-news" },
+      { name: "Local News", url: "/news/local-news" },
+      { name: "Tech News", url: "/news/tech-news" },
+      { name: "Sports News", url: "/news/sports-news" },
+      { name: "Weather Alerts", url: "/news/weather-alerts" },
+    ],
   },
   {
     name: "Sports APIs",
-    subcategories: ["Live Scores", "Team Stats", "Player Data"]
+    subcategories: [
+      { name: "Live Scores", url: "/sports/live-scores" },
+      { name: "Team Stats", url: "/sports/team-stats" },
+      { name: "Player Data", url: "/sports/player-data" },
+      { name: "Match Highlights", url: "/sports/match-highlights" },
+      { name: "League Standings", url: "/sports/league-standings" },
+    ],
   },
-  {
-    name: "Music APIs",
-    subcategories: ["Song Info", "Album Details", "Artist Data"]
-  },
-  {
-    name: "E-commerce APIs",
-    subcategories: ["Product Search", "Pricing", "Inventory"]
-  },
-  {
-    name: "Entertainment APIs",
-    subcategories: ["Movies", "TV Shows", "Streaming"]
-  },
-  {
-    name: "Health APIs",
-    subcategories: ["Fitness Trackers", "Health Stats"]
-  },
-  {
-    name: "Government APIs",
-    subcategories: ["Census Data", "Legal Data"]
-  },
-  {
-    name: "Education APIs",
-    subcategories: ["Course Data", "University Info"]
-  }
+  // Add remaining categories similarly...
 ];
 
-const Sidebar = () => {
+
+const Sidebar = ({ onSubcategorySelect }) => {
   const [activeCategory, setActiveCategory] = useState(null);
 
   const handleCategoryClick = (category) => {
@@ -62,7 +77,7 @@ const Sidebar = () => {
 
   return (
     <div className="flex">
-      <div className="w-64 bg-gray-800 text-white h-screen p-5">
+. ..        <div className="w-64 bg-gray-800 text-white h-screen px-5 overflow-y-auto">
         <h2 className="text-xl font-bold mb-5">API Categories</h2>
         <ul>
           {categories.map((category) => (
@@ -93,8 +108,9 @@ const Sidebar = () => {
                     <li
                       key={index}
                       className="py-2 text-sm text-green-500 cursor-pointer hover:bg-blue-600 rounded-md"
+                      onClick={() => onSubcategorySelect(subcategory.url)}
                     >
-                      {subcategory}
+                      {subcategory.name}
                     </li>
                   ))}
                 </ul>

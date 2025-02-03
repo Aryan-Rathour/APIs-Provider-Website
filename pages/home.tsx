@@ -70,7 +70,7 @@ export default function HeroSection() {
                     ✕
                   </button>
                   <div className="mt-4">
-                    <SignUp />
+                    <SignUp setShowSignUp={undefined} />
                   </div>
                 </div>
               </div>

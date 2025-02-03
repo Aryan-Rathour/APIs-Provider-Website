@@ -54,3 +54,16 @@ body {
     backface-visibility: hidden;
   }
 }
+
+
+.custom-hover-border:hover {
+  border-color: #D6AEDD;
+  border-width: 1px;
+  transform: scale(1.01); /* Slightly scale the card on hover */
+  transition: transform 0.3s ease, border 0.3s ease; /* Smooth transition */
+
+}
+
+.custom-hover-border {
+  transition: border-color 0.3s ease, border-width 0.3s ease;
+}

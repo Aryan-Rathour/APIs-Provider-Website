@@ -1,11 +1,14 @@
+import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
 
 export default function Footer() {
+  const [email , setEmail] = useState("");
 
   const handleSubscribe = (e) => {
+    setEmail("");
     e.preventDefault();
     toast.success("Subscribed successfully!", {
       position: "bottom-right",
@@ -30,9 +33,9 @@ export default function Footer() {
             Delivering robust and reliable APIs to empower developers and
             businesses. Explore, build, and innovate with ease.
           </p>
-          <button className="w-20 text-lg text-purple-900 font-bold py-2 my-6 ml-16 rounded-md hover:text-purple-500 transition">
+          {/* <button className="w-20 text-lg text-purple-900 font-bold py-2 my-6 ml-16 rounded-md hover:text-purple-500 transition">
             Sign up
-          </button>
+          </button> */}
         </div>
 
         {/* Column 2: Quick Links */}
@@ -145,6 +148,8 @@ export default function Footer() {
               type="email"
               placeholder="Enter your email"
               className="w-full px-4 py-2 border rounded-md text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+              value={email}
+              onChange={(e)=>setEmail(e.target.value)}
             />
             <button className="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-500 transition" >
               Subscribe

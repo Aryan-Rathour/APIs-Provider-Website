@@ -6,30 +6,27 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import ScrollToTop from "../components/ui/ScrollToTop.jsx";
 import Sidebar from "@/components/ui/sidebar";
+import sidebarData from "../app/apis/DummyData/sidebarDummy.js";
 
 const Docs = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("python");
   const [isCopied, setIsCopied] = useState(false);
   const [showJson, setShowJson] = useState(false);
+  const [JSONCopied, setIsJSONCopied] = useState(false);
+  const [selectedUrl, setSelectedUrl] = useState("");
+  const [isCopyUrl, setIsCopyUrl] = useState(false);
+  const [isCopyAccessKey, setIsCopyAccessKey] = useState(false);
 
   const router = useRouter();
 
-  useEffect(() => {
-    // Check if user is authenticated
-    const isAuthenticated = localStorage.getItem("userEmail"); // Adjust as per your token storage
-    if (!isAuthenticated) {
-      router.push("/logIn"); // Redirect to login if not authenticated
-    }
-  }, []);
-
   const codeSnippets = {
     python: `import requests
-url = 'https://api.example.com/data'
+url = "${selectedUrl ? selectedUrl : "https://www.example.com/"}"
 headers = {'Authorization': 'Bearer YOUR_API_KEY'}
 response = requests.get(url, headers=headers)
 print(response.json())`,
     javascript: `const fetch = require('node-fetch');
-const url = 'https://api.example.com/data';
+const url = "${selectedUrl ? selectedUrl : "https://www.example.com/"}"
 const options = {
   method: 'GET',
   headers: {
@@ -41,7 +38,9 @@ fetch(url, options)
   .then(res => res.json())
   .then(data => console.log(data))
   .catch(error => console.error('Error:', error));`,
-    javascriptBrowser: `fetch('https://api.example.com/data', {
+    javascriptBrowser: `fetch("${
+      selectedUrl ? selectedUrl : "https://www.example.com/"
+    }", {
   method: 'GET',
   headers: {
     'Authorization': 'Bearer YOUR_API_KEY'
@@ -61,18 +60,46 @@ fetch(url, options)
   const handleCopy = () => {
     const codeSnippet = codeSnippets[selectedLanguage];
     if (codeSnippet) {
+      const codeWithcomment = `${codeSnippet}\n//solutioners infotech`;
       navigator.clipboard
-        .writeText(codeSnippet)
+        .writeText(codeWithcomment)
         .then(() => {
           setIsCopied(true);
           setTimeout(() => {
             setIsCopied(false);
-          }, 8000);
+          }, 3000);
         })
         .catch((err) => {
           console.error("Error copying text: ", err);
         });
     }
+  };
+
+  const handleCopyUrl = () => {
+    navigator.clipboard.writeText(selectedUrl || "https://www.example.com/");
+    setIsCopyUrl(true);
+    setTimeout(() => setIsCopyUrl(false), 2000);
+  };
+
+  const handleCopyAccessKey = () => {
+    navigator.clipboard.writeText("1234567890");
+    setIsCopyAccessKey(true);
+    setTimeout(() => setIsCopyAccessKey(false), 2000);
+  };
+
+  const handleJSONCopy = () => {
+    const jsonData = JSON.stringify(dummyData, null, 2); // Convert JSON data to a formatted string
+    navigator.clipboard
+      .writeText(jsonData)
+      .then(() => {
+        setIsJSONCopied(true);
+        setTimeout(() => {
+          setIsJSONCopied(false);
+        }, 3000);
+      })
+      .catch((err) => {
+        console.error("Error copying JSON data: ", err);
+      });
   };
 
   if (!isClient) {
@@ -83,17 +110,28 @@ fetch(url, options)
     setShowJson(!showJson);
   };
 
+  const handleFullResponse = () => {
+    const jsonData = JSON.stringify(dummyData, null, 2); // Convert dummyData to JSON string
+    const blob = new Blob([jsonData], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    window.open(url, "_blank"); // Open JSON in a new tab
+  };
+
   return (
     <div>
       <Navbar />
-      <div className="fixed top-0 left-0 w-1/6 h-screen bg-gray-800 text-white">
-        <Sidebar />
+      <div className="fixed top-0 left-0 w-1/6 h-screen bg-gray-800 text-white overflow-y-auto">
+        <Sidebar onSubcategorySelect={setSelectedUrl} />
       </div>
       <ScrollToTop />
       <div className="flex pl-60 pt-4">
         <div className="flex-1 w-5/6 px-12">
           <header className="text-center py-4 px-4">
-            <h1 className=" text-4xl font-semibold text-purple-600 mb-4" style={{ fontFamily: 'Roboto, sans-serif' }}>
+            <h1
+              className=" text-4xl font-semibold text-purple-600 mb-4"
+              style={{ fontFamily: "Roboto, sans-serif" }}
+            >
               API Documentation
             </h1>
             <p className="text-lg text-gray-600">
@@ -116,6 +154,47 @@ fetch(url, options)
             </p>
           </section>
 
+          <section className="px-6 py-2">
+            <h2 className="text-2xl font-bold text-indigo-600 mb-4">
+              {localStorage.getItem("userEmail")
+                ? "Your API Access Key"
+                : "Login to Get Your API Key"}
+            </h2>
+            {localStorage.getItem("userEmail") ? (
+              <div className="bg-gray-200 p-4 rounded-lg flex justify-between">
+                <strong>Access Key: 1234567890</strong>
+                <button onClick={handleCopyAccessKey}>
+                  {isCopyAccessKey ? (
+                    <Check size={20} />
+                  ) : (
+                    <Clipboard size={20} />
+                  )}
+                </button>
+              </div>
+            ) : (
+              <div className="bg-gray-200 p-4 rounded-lg">
+                <button
+                  onClick={() => router.push("/logIn")}
+                  className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition"
+                >
+                  Login
+                </button>
+              </div>
+            )}
+          </section>
+
+          <section className="px-6 py-2">
+            <h2 className="text-2xl font-bold text-indigo-600 mb-4">API Url</h2>
+            <div className="bg-gray-200 p-4 rounded-lg flex justify-between">
+              <strong>
+                url = {selectedUrl ? selectedUrl : "https://www.example.com/"}
+              </strong>
+              <button onClick={handleCopyUrl}>
+                {isCopyUrl ? <Check size={20} /> : <Clipboard size={20} />}
+              </button>
+            </div>
+          </section>
+
           <section id="supported-api-types" className="px-6 py-6">
             <h2 className="text-2xl font-bold text-indigo-600 mb-4">
               Supported API Types
@@ -128,18 +207,6 @@ fetch(url, options)
               <li>
                 <strong>GET</strong>: Used to retrieve data from the server.
                 Example: <code>GET /users</code>
-              </li>
-              <li>
-                <strong>POST</strong>: Used to send data to the server. Example:{" "}
-                <code>POST /users</code>
-              </li>
-              <li>
-                <strong>PUT</strong>: Used to update existing resources.
-                Example: <code>PUT /users/id</code>
-              </li>
-              <li>
-                <strong>DELETE</strong>: Used to delete a resource. Example:{" "}
-                <code>DELETE /users/id</code>
               </li>
             </ul>
           </section>
@@ -222,7 +289,7 @@ fetch(url, options)
           </section>
 
           <section className="px-6 py-6">
-            <div className="mt-6 bg-gray-800 p-6 rounded-lg">
+            <div className="mt-6 bg-gray-800 p-6 rounded-lg relative">
               <div className="flex justify-between mb-4">
                 <div className="flex space-x-4">
                   <button
@@ -267,33 +334,48 @@ fetch(url, options)
               <pre className="text-white overflow-x-auto">
                 <code>{codeSnippets[selectedLanguage]}</code>
               </pre>
+              <div className="flex justify-end space-x-4 mt-8">
+      <button
+        className="bg-indigo-600 text-white py-1 px-3 rounded-lg"
+        onClick={handleTryIt}
+      >
+        Try It
+      </button>
+      <a
+        href="https://youtu.be/bxuYDT-BWaI?si=rfLGr3xr8A9jzZ4Y"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="bg-blue-600 text-white py-1 px-3 rounded-lg"
+      >
+        How to Use
+        </a>
+    </div>
             </div>
           </section>
 
-          <button
-            className="bg-indigo-600 text-white py-3 px-6 rounded-lg mt-8 mx-auto block"
-            onClick={handleTryIt}
-          >
-            Try It
-          </button>
-
           {showJson && (
-            <div className="mt-6 bg-gray-800 p-6 rounded-lg">
+            <div className="h-96 mt-6 bg-gray-800 p-6 rounded-lg overflow-y-auto relative flex flex-col">
+              <div className="flex justify-end sticky top-2">
+                <button className="text-white" onClick={handleJSONCopy}>
+                  {" "}
+                  {JSONCopied ? (
+                    <Check className="w-6 h-6" />
+                  ) : (
+                    <Clipboard className="w-6 h-6" />
+                  )}
+                </button>
+                <button
+                  className="bg-white px-4 py-2 rounded-lg ml-2"
+                  onClick={handleFullResponse}
+                >
+                  Full Response
+                </button>
+              </div>
               <pre className="text-white">
                 {JSON.stringify(dummyData, null, 2)}
               </pre>
             </div>
           )}
-
-          <section className="px-6 py-12">
-            <h2 className="text-2xl font-bold text-indigo-600 mb-4">
-              Your API Access Key
-            </h2>
-            <div className="bg-gray-200 p-4 rounded-lg">
-              <span className="font-semibold">API Key: </span>
-              <strong>API-KEY-1234567890</strong>
-            </div>
-          </section>
         </div>
       </div>
     </div>

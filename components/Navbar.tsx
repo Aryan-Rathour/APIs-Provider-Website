@@ -83,7 +83,7 @@ const Navbar = () => {
                     <NavigationMenuTrigger className="text-white hover:text-blue-600 transition-colors">
                       APIs
                     </NavigationMenuTrigger>
-                    <NavigationMenuContent className="absolute left-1/2 transform -translate-x-1/2 bg-blue-300 shadow-md rounded-lg z-50">
+                    <NavigationMenuContent className="absolute left-1/2 transform -translate-x-1/2 bg-purple-500 shadow-md rounded-lg z-50">
                       <div className="w-[800px] p-6">
                         <h3 className="text-lg font-semibold mb-2 text-center">
                           APIs TO LOOK UP
@@ -98,22 +98,28 @@ const Navbar = () => {
                             className="pl-10 pr-4 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                           />
                         </div>
-                        <div className="grid grid-cols-3 gap-4 mt-4">
-                          {filteredApis.map((api) => (
-                            <Link key={api.name} href={api.link}>
-                              <div className="group relative cursor-pointer">
-                                <div className="bg-white rounded-lg p-2 hover:shadow-lg transition-shadow duration-200">
-                                  <h4 className="font-medium text-sm text-blue-900">
-                                    {api.name}
-                                  </h4>
-                                  <p className="text-xs text-blue-900 mt-1">
-                                    {api.description}
-                                  </p>
-                                </div>
-                              </div>
-                            </Link>
-                          ))}
-                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-6">
+  {filteredApis.map((api) => (
+    <Link key={api.name} href={api.link}>
+      <div className="group relative cursor-pointer transform transition-transform duration-200 hover:scale-105">
+        <div className="bg-white rounded-lg py-2 pl-2 shadow-sm border border-gray-200 hover:shadow-lg transition-shadow duration-300">
+          {/* New Tag */}
+            <span className="absolute top-0 right-0 bg-green-500 opacity-50 text-white text-xs px-2 py-1 rounded-bl-2xl rounded-tr-lg">
+              New
+            </span>
+          
+          <h4 className="font-semibold text-base text-gray-900 mt-2">
+            {api.name}
+          </h4>
+          <p className="text-xs text-gray-700 ">
+            {api.description}
+          </p>
+        </div>
+      </div>
+    </Link>
+  ))}
+</div>
+
                       </div>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
@@ -194,7 +200,7 @@ const Navbar = () => {
               ✕
             </button>
             <div className="mt-4">
-              <Login />
+              <Login setShowLogin={setShowLogin} />
             </div>
           </div>
         </div>
