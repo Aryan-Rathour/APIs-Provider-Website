@@ -1,7 +1,6 @@
 // components/Sidebar.js
 
 import Link from "next/link";
-
 import { useState } from "react";
 
 const categories = [
@@ -64,20 +63,24 @@ const categories = [
       { name: "League Standings", url: "/sports/league-standings" },
     ],
   },
-  // Add remaining categories similarly...
 ];
-
 
 const Sidebar = ({ onSubcategorySelect }) => {
   const [activeCategory, setActiveCategory] = useState(null);
+  const [selectedSubcategory, setSelectedSubcategory] = useState(null);
 
   const handleCategoryClick = (category) => {
     setActiveCategory(category === activeCategory ? null : category);
   };
 
+  const handleSubcategoryClick = (subcategory) => {
+    setSelectedSubcategory(subcategory.url);
+    onSubcategorySelect(subcategory.url);
+  };
+
   return (
     <div className="flex">
-. ..        <div className="w-64 bg-gray-800 text-white h-screen px-5 overflow-y-auto">
+      <div className="w-64 bg-gray-800 text-white h-screen px-5 overflow-y-auto">
         <h2 className="text-xl font-bold mb-5">API Categories</h2>
         <ul>
           {categories.map((category) => (
@@ -100,15 +103,18 @@ const Sidebar = ({ onSubcategorySelect }) => {
                 </span>
                 {category.name}
               </div>
-
               {/* Show Subcategories */}
               {activeCategory === category.name && (
                 <ul className="ml-8">
-                  {category.subcategories.map((subcategory, index) => (
+                  {category.subcategories.map((subcategory) => (
                     <li
-                      key={index}
-                      className="py-2 text-sm text-green-500 cursor-pointer hover:bg-blue-600 rounded-md"
-                      onClick={() => onSubcategorySelect(subcategory.url)}
+                      key={subcategory.url}
+                      className={`py-2 text-sm cursor-pointer rounded-md px-2 my-1 ${
+                        selectedSubcategory === subcategory.url
+                          ? "bg-green-600 text-white"
+                          : "text-green-500 hover:bg-blue-600"
+                      }`}
+                      onClick={() => handleSubcategoryClick(subcategory)}
                     >
                       {subcategory.name}
                     </li>

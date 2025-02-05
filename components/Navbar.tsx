@@ -13,27 +13,65 @@ import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import Login from "../pages/logIn"; // Adjust path as necessary
 
-const apis = [
+const categories = [
   {
-    name: "Random User API",
-    description: "Generate random user data",
-    link: "/random-user",
+    name: "Weather APIs",
+    subcategories: [
+      { name: "Current Weather", url: "/weather/current-weather" },
+      { name: "Forecast", url: "/weather/forecast" },
+      { name: "Historical Data", url: "/weather/historical-data" },
+      { name: "Severe Alerts", url: "/weather/severe-alerts" },
+      { name: "Air Quality", url: "/weather/air-quality" },
+    ],
   },
   {
-    name: "Weather API",
-    description: "Get current weather information",
-    link: "/weather",
+    name: "Social Media APIs",
+    subcategories: [
+      { name: "Twitter API", url: "/social-media/twitter-api" },
+      { name: "Instagram API", url: "/social-media/instagram-api" },
+      { name: "Facebook API", url: "/social-media/facebook-api" },
+      { name: "LinkedIn API", url: "/social-media/linkedin-api" },
+      { name: "YouTube API", url: "/social-media/youtube-api" },
+    ],
   },
-  { name: "Joke API", description: "Fetch random jokes", link: "/jokes" },
   {
-    name: "Quote API",
-    description: "Get inspirational quotes",
-    link: "/quotes",
+    name: "Finance APIs",
+    subcategories: [
+      { name: "Stock Market", url: "/finance/stock-market" },
+      { name: "Cryptocurrency", url: "/finance/cryptocurrency" },
+      { name: "Exchange Rates", url: "/finance/exchange-rates" },
+      { name: "Banking Data", url: "/finance/banking-data" },
+      { name: "Payment Gateway", url: "/finance/payment-gateway" },
+    ],
   },
   {
-    name: "News API",
-    description: "Fetch latest news articles",
-    link: "/news",
+    name: "Geolocation APIs",
+    subcategories: [
+      { name: "IP Geolocation", url: "/geolocation/ip-geolocation" },
+      { name: "Location Map", url: "/geolocation/location-map" },
+      { name: "Reverse Geocoding", url: "/geolocation/reverse-geocoding" },
+      { name: "Time Zone Info", url: "/geolocation/time-zone-info" },
+    ],
+  },
+  {
+    name: "News APIs",
+    subcategories: [
+      { name: "Global News", url: "/news/global-news" },
+      { name: "Local News", url: "/news/local-news" },
+      { name: "Tech News", url: "/news/tech-news" },
+      { name: "Sports News", url: "/news/sports-news" },
+      { name: "Weather Alerts", url: "/news/weather-alerts" },
+    ],
+  },
+  {
+    name: "Sports APIs",
+    subcategories: [
+      { name: "Live Scores", url: "/sports/live-scores" },
+      { name: "Team Stats", url: "/sports/team-stats" },
+      { name: "Player Data", url: "/sports/player-data" },
+      { name: "Match Highlights", url: "/sports/match-highlights" },
+      { name: "League Standings", url: "/sports/league-standings" },
+    ],
   },
 ];
 
@@ -43,10 +81,8 @@ const Navbar = () => {
   const [userEmail, setUserEmail] = useState(null);
   const [modalPosition, setModalPosition] = useState("top-right"); // default position
 
-  const filteredApis = apis.filter(
-    (api) =>
-      api.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      api.description.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredApis = categories.filter((api) =>
+    api.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   useEffect(() => {
@@ -98,28 +134,27 @@ const Navbar = () => {
                             className="pl-10 pr-4 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                           />
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-6">
-  {filteredApis.map((api) => (
-    <Link key={api.name} href={api.link}>
-      <div className="group relative cursor-pointer transform transition-transform duration-200 hover:scale-105">
-        <div className="bg-white rounded-lg py-2 pl-2 shadow-sm border border-gray-200 hover:shadow-lg transition-shadow duration-300">
-          {/* New Tag */}
-            <span className="absolute top-0 right-0 bg-green-500 opacity-50 text-white text-xs px-2 py-1 rounded-bl-2xl rounded-tr-lg">
-              New
-            </span>
-          
-          <h4 className="font-semibold text-base text-gray-900 mt-2">
-            {api.name}
-          </h4>
-          <p className="text-xs text-gray-700 ">
-            {api.description}
-          </p>
-        </div>
-      </div>
-    </Link>
-  ))}
-</div>
-
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-6 h-96 overflow-y-auto">
+                          {filteredApis.map((api) => (
+                            <div key={api.name}>
+                              {/* Display each subcategory name in an individual box, with 4 items per row */}
+                              <div>
+                                {api.subcategories
+                                  .slice(0, 4)
+                                  .map((subcategory) => (
+                                    <div
+                                      key={subcategory.url}
+                                      className="bg-gray-100 rounded-lg p-2 shadow-sm border border-gray-200 hover:shadow-lg transition-shadow duration-300 mt-4 mr-6"
+                                    >
+                                      <p className="text-gray-800 font-medium">
+                                        {subcategory.name}
+                                      </p>
+                                    </div>
+                                  ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
