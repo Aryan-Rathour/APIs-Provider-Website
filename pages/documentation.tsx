@@ -16,6 +16,9 @@ const Docs = () => {
   const [selectedUrl, setSelectedUrl] = useState("");
   const [isCopyUrl, setIsCopyUrl] = useState(false);
   const [isCopyAccessKey, setIsCopyAccessKey] = useState(false);
+  const [subcategory, setSubcategory] = useState({});
+  const [apiName, setApiName] = useState("");
+
 
   const router = useRouter();
 
@@ -118,11 +121,16 @@ fetch(url, options)
     window.open(url, "_blank"); // Open JSON in a new tab
   };
 
+  const handleSubcategoryClick = (subcategory, name) => {
+    setSubcategory(subcategory);
+    setApiName(name);
+  };
+
   return (
     <div>
-      <Navbar />
+      <Navbar handleSubcategoryClick={handleSubcategoryClick} />
       <div className="fixed top-0 left-0 w-1/6 h-screen bg-gray-800 text-white overflow-y-auto">
-        <Sidebar onSubcategorySelect={setSelectedUrl} />
+        <Sidebar subcategory={subcategory} apiName={apiName}/>
       </div>
       <ScrollToTop />
       <div className="flex pl-60 pt-4">

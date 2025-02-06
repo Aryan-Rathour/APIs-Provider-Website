@@ -75,7 +75,7 @@ const categories = [
   },
 ];
 
-const Navbar = () => {
+const Navbar = ({ handleSubcategoryClick }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showLogin, setShowLogin] = useState(false);
   const [userEmail, setUserEmail] = useState(null);
@@ -139,18 +139,21 @@ const Navbar = () => {
                             <div key={api.name}>
                               {/* Display each subcategory name in an individual box, with 4 items per row */}
                               <div>
-                                {api.subcategories
-                                  .slice(0, 4)
-                                  .map((subcategory) => (
-                                    <div
-                                      key={subcategory.url}
-                                      className="bg-gray-100 rounded-lg p-2 shadow-sm border border-gray-200 hover:shadow-lg transition-shadow duration-300 mt-4 mr-6"
-                                    >
-                                      <p className="text-gray-800 font-medium">
-                                        {subcategory.name}
-                                      </p>
-                                    </div>
-                                  ))}
+                                {api.subcategories.map((subcategory) => (
+                                  <div
+                                    key={subcategory.url}
+                                    onClick={() =>
+                                      handleSubcategoryClick(subcategory , api.name)
+                                    }
+                                    className={
+                                      "bg-gray-100 rounded-lg p-2 shadow-sm border border-gray-200 hover:shadow-lg transition-shadow duration-300 mt-4 mr-6"
+                                    }
+                                  >
+                                    <p className="text-gray-800 font-medium">
+                                      {subcategory.name}
+                                    </p>
+                                  </div>
+                                ))}
                               </div>
                             </div>
                           ))}
