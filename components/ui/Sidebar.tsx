@@ -1,6 +1,6 @@
 // components/Sidebar.js
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useState } from 'react';
 
 const categories = [
   {
@@ -64,69 +64,63 @@ const categories = [
   },
 ];
 
-const Sidebar = ({ subcategory, apiName }) => {
+const Sidebar = ({ subcategory, apiName , onSubcategoryClick }) => {
   const [activeCategory, setActiveCategory] = useState(null);
-  // const [selectedSubcategory, setSelectedSubcategory] = useState(null);
 
-  const handleCategoryClick = (category) => {
-    setActiveCategory(category === activeCategory ? null : category);
+  useEffect(() => {
+    if (apiName) {
+      setActiveCategory(apiName);
+    }
+  }, [apiName]);
+
+  const handleCategoryClick = (categoryName) => {
+    setActiveCategory(activeCategory === categoryName ? null : categoryName);
   };
 
-  // const handleSubcategoryClick = (subcategory) => {
-  //   setSelectedSubcategory(subcategory.url);
-  //   selectedSubcategoryUrl(subcategory.url);
-  // };
-
+  const handleSubcategoryClick = (url) => {
+    if (onSubcategoryClick) {
+      onSubcategoryClick(url);
+    }
+  };
 
   return (
-    <div className="flex">
-      <div className="w-64 bg-gray-800 text-white h-screen px-5 overflow-y-auto">
-        <h2 className="text-xl font-bold mb-5">API Categories</h2>
-        <h1 className='text-white'>hhhhh{ apiName }</h1>
-        <h1 className='text-white'>hhhhh{ subcategory?.name }</h1>
-        <h1 className='text-white'>hhhhh{ subcategory?.url }</h1>
-        <ul>
-          {categories.map((category) => (
-            <li key={category.name}>
-              <div
-                onClick={() => handleCategoryClick(category.name)}
-                className={`cursor-pointer py-2 px-4 rounded-md mb-2 flex items-center ${
-                  activeCategory === category.name
-                    ? 'bg-blue-500'
-                    : 'hover:bg-blue-700'
-                }`}
-              >
-                <span
-                  className={`mr-3 ${
-                    apiName === category.name ? 'rotate-90' : ''
-                  }`}
-                >
-                  {apiName === category.name ? '▼' : '►'}
-                </span>
-                {category.name}
-              </div>
-              {apiName === category.name && (
-                <ul className="ml-8">
-                  {category.subcategories.map((sub) => (
-                    <li
-                      key={sub.url}
-                      className={`py-2 text-sm cursor-pointer rounded-md px-2 my-1 ${
+    <div className="w-64 bg-gray-800 text-white h-screen px-5 overflow-y-auto">
+      <h2 className="text-xl font-bold mb-5">API Categories</h2>
+      <ul>
+        {categories.map((category) => (
+          <li key={category.name}>
+            <div
+              onClick={() => handleCategoryClick(category.name)}
+              className={`cursor-pointer py-2 px-4 rounded-md mb-2 flex items-center justify-between ${
+                activeCategory === category.name
+                  ? 'bg-blue-500'
+                  : 'hover:bg-blue-700'
+              }`}
+            >
+              <span>{category.name}</span>
+              <span>{activeCategory === category.name ? '▼' : '►'}</span>
+            </div>
+            {activeCategory === category.name && (
+              <ul className="ml-5">
+                {category.subcategories.map((sub) => (
+                  <li key={sub.url} className="py-1 text-sm">
+                    <button
+                      onClick={() => handleSubcategoryClick(sub.url)}
+                      className={`block rounded-md px-2 py-1 ${
                         subcategory?.url === sub.url
                           ? 'bg-green-600 text-white'
                           : 'text-green-500 hover:bg-blue-600'
                       }`}
-                      onClick={() => handleSubcategoryClick(sub)}
                     >
                       {sub.name}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
-        </ul>
-
-      </div>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
