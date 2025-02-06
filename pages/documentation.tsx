@@ -20,17 +20,26 @@ const Docs = () => {
   const [apiName, setApiName] = useState("");
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
 
-
   const router = useRouter();
+
+  const { url } = subcategory;
 
   const codeSnippets = {
     python: `import requests
-url = "${selectedSubcategory ? selectedSubcategory : "https://www.example.com/"}"
+url = "${
+      selectedSubcategory || url
+        ? selectedSubcategory || url
+        : "https://www.example.com/"
+    }"
 headers = {'Authorization': 'Bearer YOUR_API_KEY'}
 response = requests.get(url, headers=headers)
 print(response.json())`,
     javascript: `const fetch = require('node-fetch');
-const url = "${selectedSubcategory ? selectedSubcategory : "https://www.example.com/"}"
+const url = "${
+      selectedSubcategory || url
+        ? selectedSubcategory || url
+        : "https://www.example.com/"
+    }"
 const options = {
   method: 'GET',
   headers: {
@@ -43,7 +52,11 @@ fetch(url, options)
   .then(data => console.log(data))
   .catch(error => console.error('Error:', error));`,
     javascriptBrowser: `fetch("${
-      selectedSubcategory ? selectedSubcategory : "https://www.example.com/"
+      selectedSubcategory || url
+        ? selectedSubcategory || url
+        : "https://www.example.com/"
+    }"
+
     }", {
   method: 'GET',
   headers: {
@@ -128,18 +141,19 @@ fetch(url, options)
   };
 
   const handleShowSubcategoryClick = (url) => {
-    console.log('Selected subcategory URL:', url);
+    console.log("Selected subcategory URL:", url);
     setSelectedSubcategory(url);
   };
-
-  const { url } = subcategory;
-  
 
   return (
     <div>
       <Navbar handleSubcategoryClick={handleSubcategoryClick} />
       <div className="fixed top-0 left-0 w-1/6 h-screen bg-gray-800 text-white overflow-y-auto">
-        <Sidebar subcategory={subcategory} apiName={apiName} onSubcategoryClick={handleShowSubcategoryClick}/>
+        <Sidebar
+          subcategory={subcategory}
+          apiName={apiName}
+          onSubcategoryClick={handleShowSubcategoryClick}
+        />
       </div>
       <ScrollToTop />
       <div className="flex pl-60 pt-4">
@@ -203,11 +217,13 @@ fetch(url, options)
           <section className="px-6 py-2">
             <h2 className="text-2xl font-bold text-indigo-600 mb-4">API Url</h2>
             <div className="bg-gray-200 p-4 rounded-lg flex justify-between">
-            <strong> url = 
-  {selectedSubcategory || url ? 
-    (selectedSubcategory || url) : 
-    "https://www.example.com/"}
-</strong>
+              <strong>
+                {" "}
+                url =
+                {selectedSubcategory || url
+                  ? selectedSubcategory || url
+                  : "https://www.example.com/"}
+              </strong>
               <button onClick={handleCopyUrl}>
                 {isCopyUrl ? <Check size={20} /> : <Clipboard size={20} />}
               </button>
@@ -354,21 +370,21 @@ fetch(url, options)
                 <code>{codeSnippets[selectedLanguage]}</code>
               </pre>
               <div className="flex justify-end space-x-4 mt-8">
-      <button
-        className="bg-indigo-600 text-white py-1 px-3 rounded-lg"
-        onClick={handleTryIt}
-      >
-        Try It
-      </button>
-      <a
-        href="https://youtu.be/bxuYDT-BWaI?si=rfLGr3xr8A9jzZ4Y"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="bg-blue-600 text-white py-1 px-3 rounded-lg"
-      >
-        How to Use
-        </a>
-    </div>
+                <button
+                  className="bg-indigo-600 text-white py-1 px-3 rounded-lg"
+                  onClick={handleTryIt}
+                >
+                  Try It
+                </button>
+                <a
+                  href="https://youtu.be/bxuYDT-BWaI?si=rfLGr3xr8A9jzZ4Y"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-blue-600 text-white py-1 px-3 rounded-lg"
+                >
+                  How to Use
+                </a>
+              </div>
             </div>
           </section>
 
