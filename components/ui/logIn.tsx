@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SignUp from "../pages/signUp"; // Import SignUp component
+import SignUp from "../ui/signUp"; // Import SignUp component
 
 export default function Login({ setShowLogin = () => {} }) {
   const [email, setEmail] = useState('');

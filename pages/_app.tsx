@@ -1,11 +1,14 @@
-// pages/_app.js
-import React from 'react';
-import '../styles/globals.css';  // if you're using global styles
-
 import { AppProps } from 'next/app';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+const queryClient = new QueryClient();
+
+function MyApp({ Component, pageProps }: AppProps) {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Component {...pageProps} />
+    </QueryClientProvider>
+  );
 }
 
-export default App;
+export default MyApp;

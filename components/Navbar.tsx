@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
-import Login from "../pages/logIn"; // Adjust path as necessary
+import Login from "../components/ui/logIn"; // Adjust path as necessary
 
 const categories = [
   {

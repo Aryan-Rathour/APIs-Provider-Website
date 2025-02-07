@@ -4,11 +4,13 @@ import Footer from "@/components/Footer";
 import HeroSection from "@/pages/home";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+import Loader from "@/components/ui/Loader";
 
 
 export default function Home() {
   return (
     <div className="w-full bg-soft-white">
+      <Loader/>
       <ScrollToTop />
       <div className="sticky top-0 z-10">
         <Navbar />

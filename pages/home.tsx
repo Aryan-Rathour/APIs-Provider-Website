@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useState } from 'react';
 import Login from './logIn';
-import SignUp from './signUp';
+import SignUp from '../components/ui/signUp';
 
 export default function HeroSection() {
 
