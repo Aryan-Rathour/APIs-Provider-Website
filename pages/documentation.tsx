@@ -7,6 +7,14 @@ import { useRouter } from "next/navigation";
 import ScrollToTop from "../components/ui/ScrollToTop.jsx";
 import Sidebar from "@/components/ui/sidebar";
 import sidebarData from "../app/apis/DummyData/sidebarDummy.js";
+import useFetchData from "@/app/services/getApi.js";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
 
 const Docs = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("python");
@@ -19,6 +27,7 @@ const Docs = () => {
   const [subcategory, setSubcategory] = useState({});
   const [apiName, setApiName] = useState("");
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
+  const [isClicked, setIsClicked] = useState(false);
 
   const router = useRouter();
 
@@ -73,6 +82,19 @@ fetch(url, options)
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  // Conditionally fetch data when the button is clicked
+  const { data, error, isLoading } = useFetchData(
+    "http://localhost:5000/randomJoke?result=4"
+  );
+
+  const handleClick = () => {
+    setIsClicked(true); // Set state to true when the button is clicked
+  };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  console.log(data);
 
   const handleCopy = () => {
     const codeSnippet = codeSnippets[selectedLanguage];
@@ -165,6 +187,35 @@ fetch(url, options)
             >
               API Documentation
             </h1>
+            <button className="bg-white px-4 py-4 border-2 border-red-500 rounded-lg" onClick={handleClick}>
+              random jokes
+            </button>
+            <div className="flex justify-center items-center">
+            {isClicked && data && (
+                <Card className="w-96 bg-gray-50 border border-gray-200 shadow-md rounded-xl p-6 custom-hover-border ">
+                <CardHeader className="text-gray-900 font-semibold">
+                  <CardTitle>Random jokes</CardTitle>
+                  <CardDescription>your random jokes</CardDescription>
+                </CardHeader>
+                <CardContent className="text-gray-700">
+                  {isClicked && data && (
+                    <div>
+                      <ul>
+                        {data.map((joke, index) => (
+                          <li key={index}>{joke.joke}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+
+            )}
+            </div>
+            
+            
+
             <p className="text-lg text-gray-600">
               Welcome to the API documentation page. Below you will find code
               examples, animations, and your API access key.

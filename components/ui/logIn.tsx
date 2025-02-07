@@ -1,21 +1,42 @@
 import { useState } from "react";
 import SignUp from "../ui/signUp"; // Import SignUp component
+import usePostRequest from "@/app/services/postApi";
 
 export default function Login({ setShowLogin = () => {} }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData , setFormData] = useState({
+    email: '',
+    password: ''
+  });
+
   const [showSignUp, setShowSignUp] = useState(false); // Manage SignUp view
+  const { mutate } = usePostRequest('/login');
+
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (email && password) {
-      localStorage.setItem("userEmail", email); // Save email to localStorage on login
+    if (formData.email && formData.password) {
+      // localStorage.setItem("userEmail", JSON.stringify(formData)); 
+      mutate(formData ,{
+        onSuccess: (data) => {
+          console.log(data);
+        },
+        onError: (error) => {
+          console.log(error);
+        }       
+      });
+      console.log(formData);
       alert('Login successful!');
-      setShowLogin(false); // Close modal after successful login
     } else {
       alert('Please fill in both fields.');
     }
   };
+
+  const handleChange = (e)=>{
+    setFormData({...formData,[e.target.name]:e.target.value});
+  }
+
+
+  
 
   return (
     <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center">
@@ -37,8 +58,8 @@ export default function Login({ setShowLogin = () => {} }) {
                   type="email"
                   id="email"
                   name="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={formData.email}
+                  onChange={handleChange}
                   required
                   placeholder="Enter your email"
                   className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"
@@ -54,8 +75,8 @@ export default function Login({ setShowLogin = () => {} }) {
                   type="password"
                   id="password"
                   name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={formData.password}
+                  onChange={handleChange}
                   required
                   placeholder="Enter your password"
                   className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"

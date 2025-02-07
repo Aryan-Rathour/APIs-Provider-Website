@@ -29,7 +29,7 @@ export default function SignUp({ setShowSignUp }) {
   const [showLogin, setShowLogin] = useState(false); // Manage Login view
 
   // Initialize the usePostRequest hook
-  const { mutate , isLoading, isError, error } = usePostRequest('/signUpUser');
+  const { mutate, isLoading, isError, error } = usePostRequest('/signUpUser');  // URL passed here
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

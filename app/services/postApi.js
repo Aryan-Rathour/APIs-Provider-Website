@@ -1,22 +1,26 @@
 import { useMutation } from "@tanstack/react-query";
 
 const usePostRequest = (endpoint) => {
-  return useMutation(async (data) => {
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+  const BASE_URL = "http://localhost:5000";
+  const { mutate, isLoading, isError, error } = useMutation({
+    mutationFn: async (data) => {
+      const response = await fetch(`${BASE_URL}${endpoint}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Something went wrong");
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      return response.json();
     }
-
-    return response.json();
   });
+
+  return { mutate, isLoading, isError, error };
 };
 
 export default usePostRequest;
