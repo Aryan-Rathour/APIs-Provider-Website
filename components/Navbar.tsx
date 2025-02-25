@@ -5,7 +5,7 @@ import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuList,
+  NavigationMenuList, 
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { useEffect, useState } from "react";
@@ -61,7 +61,7 @@ const Navbar: React.FC<NavbarProps> = ({ handleSubcategoryClick }) => {
     <nav className="bg-white-100 pt-4">
       <div className=" px-4 sm:px-6 lg:px-8">
         <div className="flex justify-center">
-          <div className="bg-indigo-800 text-white rounded-full shadow-lg px-6 py-2 flex items-center justify-between w-full max-w-lg">
+          <div className="bg-primary text-white rounded-full shadow-lg px-6 py-2 flex items-center justify-between w-full max-w-lg">
             <Link href="/">
               <div className="flex items-center justify-center  rounded-full w-10 h-10">
                 <Image src="/image (1).png" alt="Logo" width={40} height={40} />
@@ -72,12 +72,12 @@ const Navbar: React.FC<NavbarProps> = ({ handleSubcategoryClick }) => {
               <NavigationMenu>
                 <NavigationMenuList className="flex text-black font-medium justify-between w-full max-w-lg mx-auto">
                   <NavigationMenuItem className="flex-grow text-center ">
-                    <NavigationMenuTrigger className="text-white hover:text-blue-600 transition-colors">
+                    <NavigationMenuTrigger className=" hover:text-white transition-colors">
                       APIs
                     </NavigationMenuTrigger>
-                    <NavigationMenuContent className="absolute left-0 bg-purple-500 shadow-md rounded-lg z-50 w-[800px]">
+                    <NavigationMenuContent className="absolute left-0 bg-accent shadow-md rounded-lg z-50 w-[800px]">
                     <div className="w-[800px] p-6">
-                        <h3 className="text-lg font-semibold mb-2 text-center">
+                        <h3 className="text-black text-lg font-semibold mb-2 text-center">
                           APIs TO LOOK UP
                         </h3>
                         <div className="relative">
@@ -87,7 +87,7 @@ const Navbar: React.FC<NavbarProps> = ({ handleSubcategoryClick }) => {
                             placeholder="Search APIs..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="pl-10 pr-4 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                            className=" bg-gray-100 pl-10 pr-4 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                           />
                         </div>
                         
@@ -100,9 +100,9 @@ const Navbar: React.FC<NavbarProps> = ({ handleSubcategoryClick }) => {
                                 onClick={() =>
                                   handleSubcategoryClick(subcategory)
                                 }
-                                className="bg-gray-100 rounded-lg mt-2 shadow-sm border border-gray-200 hover:shadow-lg transition-shadow duration-300 text-center"
+                                className="bg-primary rounded-lg mt-2 shadow-sm border border-gray-200 hover:shadow-lg transition-shadow duration-300 text-center"
                               >
-                                <p className="text-gray-800 font-small">
+                                <p className="text-white font-small">
                                   {subcategory.name}
                                 </p>
                               </div>
@@ -116,7 +116,7 @@ const Navbar: React.FC<NavbarProps> = ({ handleSubcategoryClick }) => {
                   <NavigationMenuItem className="flex-grow text-center">
                     <Link
                       href="/pricing"
-                      className="text-white hover:text-blue-600 transition-colors mr-3"
+                      className="text-accent hover:text-white transition-colors mr-3"
                     >
                       Pricing
                     </Link>
@@ -125,7 +125,7 @@ const Navbar: React.FC<NavbarProps> = ({ handleSubcategoryClick }) => {
                   <NavigationMenuItem className="flex-grow text-center">
                     <Link
                       href="/documentation"
-                      className="text-white hover:text-blue-600 transition-colors mx-3"
+                      className="text-accent hover:text-white transition-colors mx-3"
                     >
                       Docs
                     </Link>
@@ -135,7 +135,7 @@ const Navbar: React.FC<NavbarProps> = ({ handleSubcategoryClick }) => {
                     <Link
                       href="https://blogswipe-shivank63s-projects.vercel.app/"
                       target="_blank"
-                      className="text-white hover:text-blue-600 transition-colors mx-3"
+                      className="text-accent hover:text-white transition-colors mx-3"
                     >
                       Blogs
                     </Link>
@@ -144,7 +144,7 @@ const Navbar: React.FC<NavbarProps> = ({ handleSubcategoryClick }) => {
                   <NavigationMenuItem className="flex-grow text-center">
                     <Link
                       href="/contactUs"
-                      className="text-white hover:text-blue-600 transition-colors mr-3"
+                      className="text-accent hover:text-white transition-colors mr-3"
                     >
                       Contact Us
                     </Link>
@@ -163,7 +163,7 @@ const Navbar: React.FC<NavbarProps> = ({ handleSubcategoryClick }) => {
             ) : (
               <button
                 onClick={() => setShowLogin(true)}
-                className="ml-auto hover:text-blue-600 transition-colors"
+                className="ml-auto text-accent hover:text-white transition-colors"
               >
                 Log in
               </button>

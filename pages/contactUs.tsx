@@ -18,7 +18,7 @@ export default function ContactUs() {
     <div className="bg-gray-50 min-h-screen py-12">
       {/* Page Header */}
       <div className="max-w-7xl mx-auto px-6 text-center">
-        <h1 className="text-4xl font-extrabold text-gray-900">Contact Us</h1>
+        <h1 className="text-4xl font-extrabold text-complementary">Contact Us</h1>
         <p className="text-lg text-gray-600 mt-4">
           Have any questions or need help? We're here to assist you. Fill out
           the form below or reach out to us directly.
@@ -30,7 +30,7 @@ export default function ContactUs() {
         {/* Contact Information */}
         <div className="flex flex-col justify-center space-y-8">
           <div className="space-y-4">
-            <h2 className="text-2xl font-semibold text-gray-900">
+            <h2 className="text-2xl font-semibold ">
               Contact Information
             </h2>
             <p className="text-gray-600">
@@ -41,25 +41,25 @@ export default function ContactUs() {
 
           <div>
             <h3 className="text-lg font-medium text-gray-900">Email</h3>
-            <p className="text-gray-600">support@apiprovider.com</p>
+            <p className="text-gray-600">info@solutioneers.in</p>
           </div>
 
           <div>
             <h3 className="text-lg font-medium text-gray-900">Phone</h3>
-            <p className="text-gray-600">+1 (123) 456-7890</p>
+            <p className="text-gray-600">+91 7376700783 </p>
           </div>
 
           <div>
             <h3 className="text-lg font-medium text-gray-900">Address</h3>
             <p className="text-gray-600">
-              123 API Street, Developer City, CodeLand, 456789
+            Indira Nagar, Lucknow, Uttar Pradesh
             </p>
           </div>
 
           <div className="flex space-x-4">
             <a
               href="https://solutioneers.in/"
-              className="hover:text-gray-500"
+              className="hover:text-primary"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -70,7 +70,7 @@ export default function ContactUs() {
 
             <a
               href="https://www.facebook.com/profile.php?id=61563760139403"
-              className="hover:text-gray-500"
+              className="hover:text-primary"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -81,7 +81,7 @@ export default function ContactUs() {
 
             <a
               href="https://www.instagram.com/solutioneersinfotech?igsh=NG1meHFkcm1iMTRo"
-              className="hover:text-gray-500"
+              className="hover:text-primary"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -91,7 +91,7 @@ export default function ContactUs() {
             </a>
             <a
               href="https://x.com/Solutionee65457"
-              className="hover:text-gray-500"
+              className="hover:text-primary"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -102,7 +102,7 @@ export default function ContactUs() {
             <a
               href="https://www.linkedin.com/company/solutioneers-infotech/"
               target="_blank"
-              className="hover:text-gray-500"
+              className="hover:text-primary"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M16 8a6 6 0 016 6v6h-4v-6a2 2 0 00-4 0v6h-4v-6a6 6 0 016-6zM2 9h4v12H2zM4 2a2 2 0 100 4 2 2 0 000-4z" />
@@ -113,7 +113,7 @@ export default function ContactUs() {
 
         {/* Contact Form */}
         <div className="bg-white shadow-lg rounded-xl p-8">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+          <h2 className="text-2xl font-semibold text-complementary mb-6">
             Send Us a Message
           </h2>
           <form className="space-y-6">
@@ -168,7 +168,7 @@ export default function ContactUs() {
             {/* Submit Button */}
             <button
               type="submit" onClick={showToast}
-              className="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-500 transition"
+              className="w-full bg-primary text-white py-2 rounded-md hover:bg-darkPrimary transition"
             >
               Send Message
             </button>

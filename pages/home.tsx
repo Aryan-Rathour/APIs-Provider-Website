@@ -14,12 +14,12 @@ export default function HeroSection() {
 
     
   return (
-    <section className="flex flex-col md:flex-row items-center justify-between px-6 md:px-24 py-16 bg-white">
+    <section className="flex flex-col md:flex-row items-center justify-between px-6 md:px-24 mt-2 mb-16 bg-white">
       <div className="max-w-4xl">
         {/* Heading with better hierarchy and spacing */}
         <h1 className="text-5xl md:text-6xl font-bold text-[#06092D] py-6 leading-tight">
           Pioneering, <br />
-          <span className='text-red-500 typewriting'>Your Gateway to Seamless <br/>API Connectivity.</span>
+          <span className='text-complementary typewriting'>Your Gateway to Seamless <br/>API Connectivity.</span>
         </h1>
 
         {/* Subheading with a more readable font size and weight */}
@@ -37,12 +37,12 @@ export default function HeroSection() {
         <div className="mt-10 md:mt-16 flex gap-6 justify-start">
           <button
                 onClick={() => setShowSignUp(true)}
-                className="bg-red-600 text-white px-10 py-2 rounded-full text-lg font-semibold hover:bg-red-700 transition"
+                className="bg-primary text-white px-10 py-2 rounded-full text-lg font-semibold hover:bg-darkPrimary transition"
               >
                 Sign up
               </button>
 
-          <Link href="/documentation" className="border border-red-600 text-red-500 px-10 py-2 rounded-full text-lg font-semibold hover:border-red-700 hover:text-red-700 transition">
+          <Link href="/documentation" className="border border-primary text-primary px-10 py-2 rounded-full text-lg font-semibold hover:border-darkPrimary hover:text-darkPrimary transition">
             View Documentation
           </Link>
         </div>

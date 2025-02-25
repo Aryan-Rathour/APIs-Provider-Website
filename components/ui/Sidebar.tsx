@@ -77,10 +77,10 @@ const Sidebar: React.FC<SidebarProps> = ({ subcategory, apiName, onSubcategoryCl
                   <li key={`${category.name}-${sub.api_url}`} className="py-1 text-sm">
                   <button
                       onClick={() => handleSubcategoryClick(sub)}
-                      className={`block rounded-md px-2 py-1 w-full text-left transition-all duration-300 ${
+                      className={`block rounded-md px-2 py-1 w-full text-left transition-all duration-100 ${
                         selectedSubcategory?.api_url === sub.api_url
-                          ? "bg-green-600 text-white" 
-                          : "text-green-500 hover:bg-blue-600"
+                          ? "bg-primary text-white" 
+                          : "text-primary hover:bg-blue-600"
                       }`}
                     >
                       {sub.name}

@@ -41,7 +41,7 @@ const PricingPage = () => {
   return (
     <div className="bg-gray-50 min-h-screen p-10">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">Our Pricing Plans</h1>
+        <h1 className="text-4xl font-bold text-center text-complementary mb-8">Our Pricing Plans</h1>
         <p className="text-center text-gray-600 mb-12">
           Choose a plan that fits your needs and start building with our APIs.
         </p>
@@ -57,14 +57,14 @@ const PricingPage = () => {
                   <h2 className="text-2xl font-semibold text-gray-800 mb-4">
                     {plan.title}
                   </h2>
-                  <p className="text-3xl font-bold text-purple-600 mb-4">
+                  <p className="text-3xl font-bold text-primary mb-4">
                     {plan.price}
                   </p>
                   <p className="text-gray-600 mb-6">{plan.description}</p>
                   <ul className="text-gray-700 text-left mb-6 space-y-2">
                     {plan.features.map((feature, idx) => (
                       <li key={idx} className="flex items-center">
-                        <span className="text-purple-500 mr-2">&#10003;</span>
+                        <span className="text-complementary mr-2">&#10003;</span>
                         {feature}
                       </li>
                     ))}

@@ -182,7 +182,7 @@ export default function SignUp({ setShowSignUp }) {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full px-4 py-2 text-white bg-purple-600 rounded-lg shadow hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                className="w-full px-4 py-2 text-white bg-primary rounded-lg shadow hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
               >
                 Sign Up
               </button>
@@ -193,7 +193,7 @@ export default function SignUp({ setShowSignUp }) {
               <p>
                 Already have an account?{" "}
                 <span
-                  className="text-blue-600 cursor-pointer"
+                  className="text-complementary cursor-pointer"
                   onClick={() => setShowLogin(true)} // Show Login component
                 >
                   Log In

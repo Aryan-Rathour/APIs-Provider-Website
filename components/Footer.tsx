@@ -26,7 +26,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-5 gap-8">
         {/* Column 1: Logo and About */}
         <div>
-          <h2 className="text-xl font-bold mb-4 text-gray-900">APIProvider</h2>
+          <h2 className="text-xl font-bold mb-4 text-complementary">APIProvider</h2>
           <p className="text-sm">
             Delivering robust and reliable APIs to empower developers and
             businesses. Explore, build, and innovate with ease.
@@ -38,7 +38,7 @@ export default function Footer() {
 
         {/* Column 2: Quick Links */}
         <div>
-          <h3 className="text-lg font-semibold mb-4 text-gray-900">
+          <h3 className="text-lg font-semibold mb-4 text-complementary">
             Quick Links
           </h3>
           <ul className="space-y-2 text-sm">
@@ -72,7 +72,7 @@ export default function Footer() {
 
         {/* Column 3: Quick Links */}
         <div>
-          <h3 className="text-lg font-semibold mb-4 text-gray-900">
+          <h3 className="text-lg font-semibold mb-4 text-complementary">
             Popular APIs
           </h3>
           <ul className="space-y-2 text-sm">
@@ -106,7 +106,7 @@ export default function Footer() {
 
         {/* Column 3: Resources */}
         <div>
-          <h3 className="text-lg font-semibold mb-4 text-gray-900">
+          <h3 className="text-lg font-semibold mb-4 text-complementary">
             Resources
           </h3>
           <ul className="space-y-2 text-sm">
@@ -135,7 +135,7 @@ export default function Footer() {
 
         {/* Column 4: Newsletter */}
         <div>
-          <h3 className="text-lg font-semibold mb-4 text-gray-900">
+          <h3 className="text-lg font-semibold mb-4 text-complementary">
             Stay Updated
           </h3>
           <p className="text-sm mb-4">
@@ -149,7 +149,7 @@ export default function Footer() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <button className="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-500 transition">
+            <button className="w-full bg-primary text-white py-2 rounded-md hover:bg-darkPrimary transition">
               Subscribe
             </button>
           </form>
@@ -166,7 +166,7 @@ export default function Footer() {
           <div className="flex space-x-4">
             <a
               href="https://solutioneers.in/"
-              className="hover:text-gray-500"
+              className="hover:text-primary"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -177,7 +177,7 @@ export default function Footer() {
 
             <a
               href="https://www.facebook.com/profile.php?id=61563760139403"
-              className="hover:text-gray-500"
+              className="hover:text-primary"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -188,7 +188,7 @@ export default function Footer() {
 
             <a
               href="https://www.instagram.com/solutioneersinfotech?igsh=NG1meHFkcm1iMTRo"
-              className="hover:text-gray-500"
+              className="hover:text-primary"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -198,7 +198,7 @@ export default function Footer() {
             </a>
             <a
               href="https://x.com/Solutionee65457"
-              className="hover:text-gray-500"
+              className="hover:text-primary"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -209,7 +209,7 @@ export default function Footer() {
             <a
               href="https://www.linkedin.com/company/solutioneers-infotech/"
               target="_blank"
-              className="hover:text-gray-500"
+              className="hover:text-primary"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M16 8a6 6 0 016 6v6h-4v-6a2 2 0 00-4 0v6h-4v-6a6 6 0 016-6zM2 9h4v12H2zM4 2a2 2 0 100 4 2 2 0 000-4z" />

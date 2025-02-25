@@ -235,7 +235,7 @@ const handleCloseLogin = () => {
         <div className="flex-1 w-5/6 px-12">
           <header className="text-center py-4 px-4">
             <h1
-              className=" text-4xl font-semibold text-purple-600 mb-4"
+              className=" text-4xl font-semibold text-complementary mb-4"
               style={{ fontFamily: "Roboto, sans-serif" }}
             >
               API Documentation
@@ -248,7 +248,7 @@ const handleCloseLogin = () => {
           </header>
 
           <section id="api-information" className="px-6 py-6">
-            <h2 className="text-2xl font-bold text-indigo-600 mb-4">
+            <h2 className="text-2xl font-bold text-complementary mb-4">
               API Information
             </h2>
             <p className="text-lg text-gray-700">
@@ -264,7 +264,7 @@ const handleCloseLogin = () => {
           </section>
 
           <section className="px-6 py-2">
-            <h2 className="text-2xl font-bold text-indigo-600 mb-4">
+            <h2 className="text-2xl font-bold text-complementary mb-4">
               Your API Access Key
             </h2>
             {accessKey ? (
@@ -281,7 +281,7 @@ const handleCloseLogin = () => {
             ) : (
               <div className="bg-gray-200 p-4 rounded-lg">
                 <button
-                  className="bg-indigo-600 text-white px-4 py-2 rounded-md"
+                  className="bg-primary text-white px-4 py-2 rounded-md hover:bg-darkPrimary"
                   onClick={handleLoginClick}
                 >
                   Login
@@ -291,7 +291,7 @@ const handleCloseLogin = () => {
           </section>
 
           <section className="px-6 py-2">
-            <h2 className="text-2xl font-bold text-indigo-600 mb-4">API Url</h2>
+            <h2 className="text-2xl font-bold text-complementary mb-4">API Url</h2>
             <div className="bg-gray-200 p-4 rounded-lg flex justify-between">
               <strong>
                 {" "}
@@ -306,7 +306,7 @@ const handleCloseLogin = () => {
           </section>
 
           <section id="supported-api-types" className="px-6 py-6">
-            <h2 className="text-2xl font-bold text-indigo-600 mb-4">
+            <h2 className="text-2xl font-bold text-complementary mb-4">
               Supported API Types
             </h2>
             <p className="text-lg text-gray-700 mb-4">
@@ -324,7 +324,7 @@ const handleCloseLogin = () => {
           </section>
 
           <section id="accepted-platforms" className="px-6 py-6">
-            <h2 className="text-2xl font-bold text-indigo-600 mb-4">
+            <h2 className="text-2xl font-bold text-complementary mb-4">
               Accepted Platforms
             </h2>
             <p className="text-lg text-gray-700 mb-4">
@@ -369,7 +369,7 @@ const handleCloseLogin = () => {
           </section>
 
           <section id="expected-body" className="px-6 py-6">
-            <h2 className="text-2xl font-bold text-indigo-600 mb-4">
+            <h2 className="text-2xl font-bold text-complementary mb-4">
               Expected Body Content
             </h2>
             <p className="text-lg text-gray-700 mb-4">
@@ -377,7 +377,7 @@ const handleCloseLogin = () => {
               <code>PUT</code> methods, make sure to send the correct body
               content.
             </p>
-            <h3 className="text-xl font-semibold text-indigo-600 mb-2">
+            <h3 className="text-xl font-semibold text-complementary mb-2">
               Example JSON Payload
             </h3>
             <pre className="bg-gray-800 text-white p-4 rounded-lg">
@@ -386,7 +386,7 @@ const handleCloseLogin = () => {
           </section>
 
           <section id="authentication" className="px-6 py-6">
-            <h2 className="text-2xl font-bold text-indigo-600 mb-4">
+            <h2 className="text-2xl font-bold text-complementary mb-4">
               Authentication
             </h2>
             <p className="text-lg text-gray-700 mb-4">
@@ -403,7 +403,7 @@ const handleCloseLogin = () => {
                   <button
                     className={`${
                       selectedLanguage === "python"
-                        ? "bg-indigo-600 text-white"
+                        ? "bg-primary text-white"
                         : "bg-gray-200"
                     } py-2 px-4 rounded-lg focus:outline-none`}
                     onClick={() => setSelectedLanguage("python")}
@@ -413,7 +413,7 @@ const handleCloseLogin = () => {
                   <button
                     className={`${
                       selectedLanguage === "javascript"
-                        ? "bg-indigo-600 text-white"
+                        ? "bg-primary text-white"
                         : "bg-gray-200"
                     } py-2 px-4 rounded-lg focus:outline-none`}
                     onClick={() => setSelectedLanguage("javascript")}
@@ -423,7 +423,7 @@ const handleCloseLogin = () => {
                   <button
                     className={`${
                       selectedLanguage === "javascriptBrowser"
-                        ? "bg-indigo-600 text-white"
+                        ? "bg-primary text-white"
                         : "bg-gray-200"
                     } py-2 px-4 rounded-lg focus:outline-none`}
                     onClick={() => setSelectedLanguage("javascriptBrowser")}
@@ -444,7 +444,7 @@ const handleCloseLogin = () => {
               </pre>
               <div className="flex justify-end space-x-4 mt-8">
                 <button
-                  className="bg-indigo-600 text-white py-1 px-3 rounded-lg"
+                  className="bg-primary text-white py-1 px-3 rounded-lg hover:bg-darkPrimary"
                   onClick={() =>
                     handleTryIt(selectedSidebarSubcategory?.api_url || "")
                   }
@@ -455,7 +455,7 @@ const handleCloseLogin = () => {
                   href="https://youtu.be/bxuYDT-BWaI?si=rfLGr3xr8A9jzZ4Y"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-blue-600 text-white py-1 px-3 rounded-lg"
+                  className="bg-primary text-white py-1 px-3 rounded-lg hover:bg-darkPrimary"
                 >
                   How to Use
                 </a>

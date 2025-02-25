@@ -103,7 +103,7 @@ export default function Login({ setShowLogin = () => {} }) {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full px-4 py-2 text-white bg-purple-600 rounded-lg shadow hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                className="w-full px-4 py-2 text-white bg-primary rounded-lg shadow hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
               >
                 Login
               </button>
@@ -126,7 +126,7 @@ export default function Login({ setShowLogin = () => {} }) {
               <p>
                 Don&apos;t have an account?{" "}
                 <span
-                  className="text-blue-600 cursor-pointer"
+                  className="text-complementary cursor-pointer"
                   onClick={() => setShowSignUp(true)}
                 >
                   Sign Up
