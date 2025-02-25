@@ -3,7 +3,7 @@ import SignUp from "../ui/signUp"; // Import SignUp component
 import usePostRequest from "@/app/services/postApi";
 
 export default function Login({ setShowLogin = () => {} }) {
-  const [formData , setFormData] = useState({
+  const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
@@ -11,36 +11,53 @@ export default function Login({ setShowLogin = () => {} }) {
   const [showSignUp, setShowSignUp] = useState(false); // Manage SignUp view
   const { mutate } = usePostRequest('/login');
 
-
   const handleLogin = (e) => {
     e.preventDefault();
     if (formData.email && formData.password) {
-      // localStorage.setItem("userEmail", JSON.stringify(formData)); 
-      mutate(formData ,{
+      mutate(formData, {
         onSuccess: (data) => {
           console.log(data);
+          alert('Login successful!');
+          setShowLogin(false);
         },
         onError: (error) => {
           console.log(error);
-        }       
+        }
       });
       console.log(formData);
-      alert('Login successful!');
     } else {
       alert('Please fill in both fields.');
     }
   };
 
-  const handleChange = (e)=>{
-    setFormData({...formData,[e.target.name]:e.target.value});
-  }
-
-
-  
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   return (
     <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center">
-      <div className="bg-white p-6 rounded-2xl shadow-lg w-full max-w-md box-border">
+      <div className="bg-white p-6 rounded-2xl shadow-lg w-full max-w-md box-border relative">
+        {/* Close Button */}
+        <button
+          onClick={() => setShowLogin(false)}
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            className="h-6 w-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+
         {showSignUp ? (
           <SignUp setShowSignUp={setShowSignUp} />
         ) : (

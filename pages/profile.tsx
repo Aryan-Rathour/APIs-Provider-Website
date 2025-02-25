@@ -1,10 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import { ClipboardCopyIcon } from '@heroicons/react/outline';  // Import the icon
+import { ClipboardCopyIcon } from "@heroicons/react/outline"; // Import the icon
 import Transaction from "@/components/ui/transaction";
+import usePutMutation from "../app/services/putApi";
+
+interface Profile {
+  firstName: string;
+  lastName: string;
+  email: string;
+  profession: string;
+  accessKey: string;
+  profileImage: string;
+}
 
 export default function ProfilePage() {
-  const [profile, setProfile] = useState({
+  const [profile, setProfile] = useState<Profile>({
     firstName: "",
     lastName: "",
     email: "",
@@ -14,13 +24,9 @@ export default function ProfilePage() {
   });
   const [isSaving, setIsSaving] = useState(false);
   const [errors, setErrors] = useState({});
+  const [copyMessage, setCopyMessage] = useState<string>("");
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
-  useEffect(() => {
-    const storedProfile = JSON.parse(localStorage.getItem("userProfile"));
-    if (storedProfile) {
-      setProfile(storedProfile);
-    }
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,8 +43,15 @@ export default function ProfilePage() {
 
   const handleCopyAccessKey = () => {
     navigator.clipboard.writeText(profile.accessKey);
-    alert("Access Key copied to clipboard!");
+    setCopyMessage("Copied!"); // Show the "Copied!" message
+    setTimeout(() => {
+      setCopyMessage(""); // Hide the "Copied!" message after 3 seconds
+    }, 3000);
   };
+
+  const { mutate, isLoading, isError, data } = usePutMutation(
+    "http://localhost:5000/updateProfile"
+  );
 
   const handleSave = () => {
     const newErrors = {};
@@ -52,10 +65,29 @@ export default function ProfilePage() {
     }
 
     setIsSaving(true);
-    localStorage.setItem("userProfile", JSON.stringify(profile));
-    setIsSaving(false);
-    alert("Profile updated successfully!");
+    console.log("Saving profile:", profile);
+    mutate(profile, {
+      onSuccess: () => {
+        localStorage.setItem("userProfile", JSON.stringify(profile));
+        setIsSaving(false);
+        alert("Profile updated successfully!");
+      },
+      onError: (error) => {
+        console.error("Error updating profile:", error);
+        setIsSaving(false);
+      },
+    });
   };
+
+  const handleLogoutClick = () => {
+    setShowLogoutDialog(true); // Show the dialog
+  };
+  
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setShowLogoutDialog(false); // Close the dialog
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center py-20">
@@ -87,12 +119,18 @@ export default function ProfilePage() {
                   readOnly
                   className="w-96 px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 truncate"
                 />
-                <button
-                  onClick={handleCopyAccessKey}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-lg hover:bg-purple-600"
-                >
-                  <ClipboardCopyIcon className="w-5 h-5" /> {/* Clipboard icon */}
-                </button>
+                {copyMessage ? (
+                  <span className="absolute right-5 top-1/2 transform -translate-y-1/2 text-green-500 ">
+                    {copyMessage}
+                  </span>
+                ) : (
+                  <button
+                    onClick={handleCopyAccessKey}
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-lg hover:text-gray-400"
+                  >
+                    <ClipboardCopyIcon className="w-5 h-5" />
+                  </button>
+                )}
               </div>
             </div>
             <button
@@ -112,10 +150,11 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* Editable Fields */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
-            <label className="block text-gray-700 font-medium mb-2">First Name</label>
+            <label className="block text-gray-700 font-medium mb-2">
+              First Name
+            </label>
             <input
               type="text"
               name="firstName"
@@ -131,7 +170,9 @@ export default function ProfilePage() {
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Last Name</label>
+            <label className="block text-gray-700 font-medium mb-2">
+              Last Name
+            </label>
             <input
               type="text"
               name="lastName"
@@ -147,7 +188,9 @@ export default function ProfilePage() {
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Email</label>
+            <label className="block text-gray-700 font-medium mb-2">
+              Email
+            </label>
             <input
               type="email"
               name="email"
@@ -163,7 +206,9 @@ export default function ProfilePage() {
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Profession</label>
+            <label className="block text-gray-700 font-medium mb-2">
+              Profession
+            </label>
             <input
               type="text"
               name="profession"
@@ -177,7 +222,33 @@ export default function ProfilePage() {
               <p className="text-red-500 text-sm">{errors.profession}</p>
             )}
           </div>
+          <div>
+            <button className="bg-red-500 px-4 py-2 border rounded-lg text-white" onClick={handleLogoutClick}
+            > Log out</button>
+          </div>
         </div>
+        {showLogoutDialog && (
+  <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+      <h3 className="text-lg font-semibold text-gray-700">Are you sure you want to log out?</h3>
+      <div className="mt-4 flex justify-end space-x-4">
+        <button
+          onClick={() => setShowLogoutDialog(false)} // Close the dialog without logging out
+          className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handleLogout} // Perform logout and close the dialog
+          className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+        >
+          Log out
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
       </div>
       <Transaction />
     </div>

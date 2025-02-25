@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const Loader = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-transparent pointer-events-none">
       {/* Spinner */}
       <motion.div
         className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"
@@ -12,7 +12,6 @@ const Loader = () => {
         transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
       />
 
-      {/* Loading Dots */}
       <div className="mt-4 flex space-x-2">
         {[...Array(3)].map((_, i) => (
           <motion.div

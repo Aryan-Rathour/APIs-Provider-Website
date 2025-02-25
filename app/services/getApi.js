@@ -1,22 +1,22 @@
-// hooks/useFetchData.js
 import { useQuery } from '@tanstack/react-query';
 
-const fetchData = async (url) => {
-  const response = await fetch(url);
+const BASE_URL = 'http://localhost:5000';
+
+const fetchData = async (endpoint) => {
+  const response = await fetch(`${BASE_URL}${endpoint}`);
   if (!response.ok) {
     throw new Error('Network response was not ok');
   }
   return response.json();
 };
 
-const useFetchData = (url) => {
+const useFetchData = (endpoint) => {
   return useQuery({
-    queryKey: [url], // The new way to pass query keys
-    queryFn: () => fetchData(url),
-    // Optionally, you can add some configurations for the query here
-    refetchOnWindowFocus: false, // Disable refetch on window focus
-    retry: 1, // Retry the request once if it fails
-    staleTime: 60000, // Data will be considered fresh for 1 minute
+    queryKey: [endpoint], // React Query key
+    queryFn: () => fetchData(endpoint),
+    refetchOnWindowFocus: false, // Prevent refetching when window regains focus
+    retry: 1, // Retry request once on failure
+    staleTime: 60000, // Cache data for 1 minute
   });
 };
 

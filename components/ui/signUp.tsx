@@ -15,7 +15,6 @@ interface SignUpFormData {
 }
 
 export default function SignUp({ setShowSignUp }) {
-  
 
   const [formData, setFormData] = useState<SignUpFormData>({
     firstName: '',
@@ -40,9 +39,11 @@ export default function SignUp({ setShowSignUp }) {
     // Basic validation
     if (Object.values(formData).every(field => field.trim() !== '')) {
       mutate(formData, {
-        onSuccess: () => {
+        onSuccess: (data) => {
           alert('Sign Up successful!');
+          localStorage.setItem("user", JSON.stringify(data.data));
           setShowSignUp(false); // Close modal after successful sign-up
+          // localStorage.setItem("user", JSON.stringify(data));
         },
         onError: (error) => {
           alert(`Error: ${error.message}`);
@@ -53,17 +54,21 @@ export default function SignUp({ setShowSignUp }) {
       alert('Please fill in all fields.');
     }
   };
-  useEffect(() => {
-    // This code will only run on the client side
-    if (typeof window !== "undefined") {
-      // Now you can use `window` safely
-    }
-  }, []);
-  
 
   return (
     <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center">
-      <div className="bg-white p-6 rounded-2xl shadow-lg w-full max-w-md box-border">
+      <div className="bg-white p-6 rounded-2xl shadow-lg w-full max-w-md box-border relative">
+        
+        {/* Cross Button */}
+        <button
+          onClick={() => setShowSignUp(false)}
+          className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        
         {showLogin ? (
           <Login setShowLogin={setShowLogin} /> // Render Login component if showLogin is true
         ) : (

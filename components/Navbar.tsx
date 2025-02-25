@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { Input } from "@/components/ui/input";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -9,94 +8,52 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import Login from "../components/ui/logIn"; // Adjust path as necessary
+import { categories } from "@/lib/utils";
 
-const categories = [
-  {
-    name: "Weather APIs",
-    subcategories: [
-      { name: "Current Weather", url: "/weather/current-weather" },
-      { name: "Forecast", url: "/weather/forecast" },
-      { name: "Historical Data", url: "/weather/historical-data" },
-      { name: "Severe Alerts", url: "/weather/severe-alerts" },
-      { name: "Air Quality", url: "/weather/air-quality" },
-    ],
-  },
-  {
-    name: "Social Media APIs",
-    subcategories: [
-      { name: "Twitter API", url: "/social-media/twitter-api" },
-      { name: "Instagram API", url: "/social-media/instagram-api" },
-      { name: "Facebook API", url: "/social-media/facebook-api" },
-      { name: "LinkedIn API", url: "/social-media/linkedin-api" },
-      { name: "YouTube API", url: "/social-media/youtube-api" },
-    ],
-  },
-  {
-    name: "Finance APIs",
-    subcategories: [
-      { name: "Stock Market", url: "/finance/stock-market" },
-      { name: "Cryptocurrency", url: "/finance/cryptocurrency" },
-      { name: "Exchange Rates", url: "/finance/exchange-rates" },
-      { name: "Banking Data", url: "/finance/banking-data" },
-      { name: "Payment Gateway", url: "/finance/payment-gateway" },
-    ],
-  },
-  {
-    name: "Geolocation APIs",
-    subcategories: [
-      { name: "IP Geolocation", url: "/geolocation/ip-geolocation" },
-      { name: "Location Map", url: "/geolocation/location-map" },
-      { name: "Reverse Geocoding", url: "/geolocation/reverse-geocoding" },
-      { name: "Time Zone Info", url: "/geolocation/time-zone-info" },
-    ],
-  },
-  {
-    name: "News APIs",
-    subcategories: [
-      { name: "Global News", url: "/news/global-news" },
-      { name: "Local News", url: "/news/local-news" },
-      { name: "Tech News", url: "/news/tech-news" },
-      { name: "Sports News", url: "/news/sports-news" },
-      { name: "Weather Alerts", url: "/news/weather-alerts" },
-    ],
-  },
-  {
-    name: "Sports APIs",
-    subcategories: [
-      { name: "Live Scores", url: "/sports/live-scores" },
-      { name: "Team Stats", url: "/sports/team-stats" },
-      { name: "Player Data", url: "/sports/player-data" },
-      { name: "Match Highlights", url: "/sports/match-highlights" },
-      { name: "League Standings", url: "/sports/league-standings" },
-    ],
-  },
-];
+interface Subcategory {
+  name: string;
+  api_info: string;
+  api_url: string;
+  supported_api_types: string[];
+  expected_body_type: string;
+}
 
-const Navbar = ({ handleSubcategoryClick }) => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [showLogin, setShowLogin] = useState(false);
-  const [userEmail, setUserEmail] = useState(null);
-  const [modalPosition, setModalPosition] = useState("top-right"); // default position
+interface Category {
+  name: string;
+  subcategories: Subcategory[];
+}
 
-  const filteredApis = categories.filter((api) =>
+interface NavbarProps {
+  handleSubcategoryClick: (subcategory: Subcategory) => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ handleSubcategoryClick }) => {
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [showLogin, setShowLogin] = useState<boolean>(false);
+  const [firstName, setFirstName] = useState<string | null>(null);
+
+  const filteredApis: Category[] = categories.filter((api) =>
     api.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   useEffect(() => {
-    // Check if the user is logged in by checking local storage for email
-    const storedEmail = localStorage.getItem("userEmail");
-    console.log("Stored Email:", storedEmail); // Check if email is fetched from localStorage
-    if (storedEmail) {
-      setUserEmail(storedEmail);
-    }
-  }, []); // Empty dependency array ensures it only runs once after the initial render
+    const storedUser = localStorage.getItem("user");
 
-  const extractFirstLetter = (email) => {
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setFirstName(parsedUser?.user?.firstName ?? null);
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
+    }
+  }, []);
+
+  const extractFirstLetter = (email: string | null): string => {
     if (!email) return "";
-    const firstName = email.split("@")[0]; // Just get the first part of the email
+    const firstName = email.split("@")[0];
     return firstName.charAt(0).toUpperCase();
   };
 
@@ -112,15 +69,14 @@ const Navbar = ({ handleSubcategoryClick }) => {
             </Link>
             <div className="flex items-center space-x-6">
               {" "}
-              {/* Increased spacing here */}
               <NavigationMenu>
                 <NavigationMenuList className="flex text-black font-medium justify-between w-full max-w-lg mx-auto">
-                  <NavigationMenuItem className="flex-grow text-center">
+                  <NavigationMenuItem className="flex-grow text-center ">
                     <NavigationMenuTrigger className="text-white hover:text-blue-600 transition-colors">
                       APIs
                     </NavigationMenuTrigger>
-                    <NavigationMenuContent className="absolute left-1/2 transform -translate-x-1/2 bg-purple-500 shadow-md rounded-lg z-50">
-                      <div className="w-[800px] p-6">
+                    <NavigationMenuContent className="absolute left-0 bg-purple-500 shadow-md rounded-lg z-50 w-[800px]">
+                    <div className="w-[800px] p-6">
                         <h3 className="text-lg font-semibold mb-2 text-center">
                           APIs TO LOOK UP
                         </h3>
@@ -134,29 +90,23 @@ const Navbar = ({ handleSubcategoryClick }) => {
                             className="pl-10 pr-4 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                           />
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-6 h-96 overflow-y-auto">
-                          {filteredApis.map((api) => (
-                            <div key={api.name}>
-                              {/* Display each subcategory name in an individual box, with 4 items per row */}
-                              <div>
-                                {api.subcategories.map((subcategory) => (
-                                  <div
-                                    key={subcategory.url}
-                                    onClick={() =>
-                                      handleSubcategoryClick(subcategory , api.name)
-                                    }
-                                    className={
-                                      "bg-gray-100 rounded-lg p-2 shadow-sm border border-gray-200 hover:shadow-lg transition-shadow duration-300 mt-4 mr-6"
-                                    }
-                                  >
-                                    <p className="text-gray-800 font-medium">
-                                      {subcategory.name}
-                                    </p>
-                                  </div>
-                                ))}
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6 h-auto overflow-y-auto">
+                          {filteredApis
+                            .flatMap((api) => api.subcategories) 
+                            .map((subcategory) => (
+                              <div
+                                key={subcategory.api_url}
+                                onClick={() =>
+                                  handleSubcategoryClick(subcategory)
+                                }
+                                className="bg-gray-100 rounded-lg mt-2 shadow-sm border border-gray-200 hover:shadow-lg transition-shadow duration-300 text-center"
+                              >
+                                <p className="text-gray-800 font-small">
+                                  {subcategory.name}
+                                </p>
                               </div>
-                            </div>
-                          ))}
+                            ))}
                         </div>
                       </div>
                     </NavigationMenuContent>
@@ -204,10 +154,10 @@ const Navbar = ({ handleSubcategoryClick }) => {
             </div>
 
             {/* Conditional display of first letter if logged in */}
-            {userEmail ? (
+            {firstName ? (
               <Link href="/profile">
                 <span className="ml-auto bg-purple-600 text-white rounded-full w-8 h-8 flex items-center justify-center">
-                  {extractFirstLetter(userEmail)}
+                  {extractFirstLetter(firstName)}
                 </span>
               </Link>
             ) : (
@@ -226,19 +176,8 @@ const Navbar = ({ handleSubcategoryClick }) => {
       {showLogin && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-25 backdrop-blur-sm">
           <div className="relative bg-white p-6 rounded-2xl shadow-lg w-full max-w-md">
-            {/* Close Button */}
-            <button
-              onClick={() => setShowLogin(false)}
-              className={`absolute ${
-                modalPosition === "top-right"
-                  ? "bottom-56 right-4"
-                  : "bottom-80 right-80"
-              } text-gray-600 hover:text-gray-900 text-xl font-bold z-50`}
-            >
-              ✕
-            </button>
             <div className="mt-4">
-              <Login setShowLogin={setShowLogin} />
+              <Login setShowLogin={() => setShowLogin(false)} />
             </div>
           </div>
         </div>
@@ -247,7 +186,7 @@ const Navbar = ({ handleSubcategoryClick }) => {
   );
 };
 
-const SearchIcon = ({ className }) => (
+const SearchIcon: React.FC<{ className: string }> = ({ className }) => (
   <svg
     className={className}
     fill="none"

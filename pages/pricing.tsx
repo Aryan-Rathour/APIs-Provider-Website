@@ -52,7 +52,7 @@ const PricingPage = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Card className="shadow-lg border border-gray-200">
+              <Card className="shadow-lg border border-gray-200 h-full">
                 <CardContent className="p-6 text-center">
                   <h2 className="text-2xl font-semibold text-gray-800 mb-4">
                     {plan.title}

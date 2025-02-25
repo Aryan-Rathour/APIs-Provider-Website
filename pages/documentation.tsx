@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import { Clipboard, Check } from "lucide-react";
-import dummyData from "../app/apis/DummyData/dummyData.js";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import ScrollToTop from "../components/ui/ScrollToTop.jsx";
 import Sidebar from "@/components/ui/sidebar";
-import sidebarData from "../app/apis/DummyData/sidebarDummy.js";
 import useFetchData from "@/app/services/getApi.js";
 import {
   Card,
@@ -15,29 +13,65 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
+import Loader from "../components/ui/Loader.tsx";
+import Login from "@/components/ui/logIn.tsx";
 
-const Docs = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState("python");
-  const [isCopied, setIsCopied] = useState(false);
-  const [showJson, setShowJson] = useState(false);
-  const [JSONCopied, setIsJSONCopied] = useState(false);
-  const [selectedUrl, setSelectedUrl] = useState("");
-  const [isCopyUrl, setIsCopyUrl] = useState(false);
-  const [isCopyAccessKey, setIsCopyAccessKey] = useState(false);
-  const [subcategory, setSubcategory] = useState({});
-  const [apiName, setApiName] = useState("");
-  const [selectedSubcategory, setSelectedSubcategory] = useState(null);
-  const [isClicked, setIsClicked] = useState(false);
+export interface Subcategory {
+  name?: string;
+  api_url?: string;
+  api_info?: string;
+  supported_api_types?: string;
+  expected_body_type?: string;
+}
+
+const Docs: React.FC = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [selectedLanguage, setSelectedLanguage] = useState<string>("python");
+  const [isCopied, setIsCopied] = useState<boolean>(false);
+  const [showJson, setShowJson] = useState<boolean>(false);
+  const [JSONCopied, setIsJSONCopied] = useState<boolean>(false);
+  const [isCopyUrl, setIsCopyUrl] = useState<boolean>(false);
+  const [accessKey, setAccessKey] = useState<string | null>(null); // Initialize state for accessKey
+  const [isCopyAccessKey, setIsCopyAccessKey] = useState<boolean>(false);
+  const [subcategory, setSubcategory] = useState<Subcategory>({});
+  const [apiName, setApiName] = useState<string>("");
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(
+    null
+  );
+  const [selectedSidebarSubcategory, setSelectedSidebarSubcategory] =
+    useState<Subcategory | null>();
+  const [selectedApiUrl, setSelectedApiUrl] = useState<string | null>(null);
+  const [showLogin, setShowLogin] = useState<boolean>(false);
 
   const router = useRouter();
 
-  const { url } = subcategory;
+  useEffect(() => {
+    const userDataString = localStorage.getItem("user");
 
-  const codeSnippets = {
+    if (userDataString) {
+      try {
+        const userData = JSON.parse(userDataString);
+        if (userData?.accessKey) {
+          setAccessKey(userData.accessKey);
+        } else {
+          setAccessKey(null);
+        }
+      } catch (e) {
+        console.error("Error parsing user data:", e);
+        setAccessKey(null);
+      }
+    } else {
+      setAccessKey(null);
+    }
+  }, []);
+
+  useEffect(() => {}, [selectedSidebarSubcategory]);
+
+  const codeSnippets: Record<string, string> = {
     python: `import requests
 url = "${
-      selectedSubcategory || url
-        ? selectedSubcategory || url
+      selectedSidebarSubcategory?.api_url
+        ? `http://localhost:5000${selectedSidebarSubcategory?.api_url}`
         : "https://www.example.com/"
     }"
 headers = {'Authorization': 'Bearer YOUR_API_KEY'}
@@ -45,8 +79,8 @@ response = requests.get(url, headers=headers)
 print(response.json())`,
     javascript: `const fetch = require('node-fetch');
 const url = "${
-      selectedSubcategory || url
-        ? selectedSubcategory || url
+      selectedSidebarSubcategory?.api_url
+        ? `http://localhost:5000${selectedSidebarSubcategory?.api_url}`
         : "https://www.example.com/"
     }"
 const options = {
@@ -61,8 +95,8 @@ fetch(url, options)
   .then(data => console.log(data))
   .catch(error => console.error('Error:', error));`,
     javascriptBrowser: `fetch("${
-      selectedSubcategory || url
-        ? selectedSubcategory || url
+      selectedSidebarSubcategory?.api_url
+        ? `http://localhost:5000${selectedSidebarSubcategory?.api_url}`
         : "https://www.example.com/"
     }"
 
@@ -83,18 +117,16 @@ fetch(url, options)
     setIsClient(true);
   }, []);
 
-  // Conditionally fetch data when the button is clicked
-  const { data, error, isLoading } = useFetchData(
-    "http://localhost:5000/randomJoke?result=4"
-  );
+  const { data: JSONdata, refetch } = useFetchData(selectedApiUrl);
 
-  const handleClick = () => {
-    setIsClicked(true); // Set state to true when the button is clicked
+  const handleTryIt = (api: string) => {
+    if (api) {
+      setSelectedApiUrl(`${api}`);
+
+      setShowJson(!showJson);
+      refetch();
+    }
   };
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-  console.log(data);
 
   const handleCopy = () => {
     const codeSnippet = codeSnippets[selectedLanguage];
@@ -115,19 +147,24 @@ fetch(url, options)
   };
 
   const handleCopyUrl = () => {
-    navigator.clipboard.writeText(selectedUrl || "https://www.example.com/");
+    navigator.clipboard.writeText(`http://localhost:5000
+      ${
+        selectedSidebarSubcategory?.api_url
+          ? selectedSidebarSubcategory?.api_url
+          : `https://www.example.com/`
+      }`);
     setIsCopyUrl(true);
     setTimeout(() => setIsCopyUrl(false), 2000);
   };
 
   const handleCopyAccessKey = () => {
-    navigator.clipboard.writeText("1234567890");
+    navigator.clipboard.writeText(accessKey || "");
     setIsCopyAccessKey(true);
     setTimeout(() => setIsCopyAccessKey(false), 2000);
   };
 
-  const handleJSONCopy = () => {
-    const jsonData = JSON.stringify(dummyData, null, 2); // Convert JSON data to a formatted string
+  const handleJSONCopy = (Jsondata: Record<string, unknown>) => {
+    const jsonData = JSON.stringify(Jsondata, null, 2);
     navigator.clipboard
       .writeText(jsonData)
       .then(() => {
@@ -145,36 +182,52 @@ fetch(url, options)
     return null;
   }
 
-  const handleTryIt = () => {
-    setShowJson(!showJson);
-  };
-
-  const handleFullResponse = () => {
-    const jsonData = JSON.stringify(dummyData, null, 2); // Convert dummyData to JSON string
+  const handleFullResponse = (Jsondata: Record<string, unknown>) => {
+    const jsonData = JSON.stringify(Jsondata, null, 2);
     const blob = new Blob([jsonData], { type: "application/json" });
     const url = URL.createObjectURL(blob);
 
-    window.open(url, "_blank"); // Open JSON in a new tab
+    window.open(url, "_blank");
   };
 
-  const handleSubcategoryClick = (subcategory, name) => {
+  const handleSubcategoryClick = (subcategory: Subcategory) => {
     setSubcategory(subcategory);
-    setApiName(name);
+    setApiName(subcategory.api_info || "");
   };
 
-  const handleShowSubcategoryClick = (url) => {
-    console.log("Selected subcategory URL:", url);
-    setSelectedSubcategory(url);
+  const handleSubcategorySelect = (subcategory: Subcategory) => {
+    setIsLoading(true);
+    setSelectedSidebarSubcategory(subcategory);
+    setTimeout(() => {
+      setSelectedSidebarSubcategory(subcategory);
+      setIsLoading(false);
+    }, 1000);
   };
+
+  const handleLoginSuccess = () => {
+    setShowLogin(true);
+  };
+
+  const handleLoginClick = () => {
+    setShowLogin(true);
+  };
+
+
+const handleCloseLogin = () => {
+  setShowLogin(false);
+};
 
   return (
     <div>
+      <div className="flex-1 px-12">{isLoading ? <Loader /> : <></>}</div>
       <Navbar handleSubcategoryClick={handleSubcategoryClick} />
+      {showLogin && <Login onLoginSuccess={handleLoginSuccess} onClose={handleCloseLogin} />}
+
       <div className="fixed top-0 left-0 w-1/6 h-screen bg-gray-800 text-white overflow-y-auto">
         <Sidebar
           subcategory={subcategory}
           apiName={apiName}
-          onSubcategoryClick={handleShowSubcategoryClick}
+          onSubcategoryClick={handleSubcategorySelect}
         />
       </div>
       <ScrollToTop />
@@ -187,35 +240,7 @@ fetch(url, options)
             >
               API Documentation
             </h1>
-            <button className="bg-white px-4 py-4 border-2 border-red-500 rounded-lg" onClick={handleClick}>
-              random jokes
-            </button>
-            <div className="flex justify-center items-center">
-            {isClicked && data && (
-                <Card className="w-96 bg-gray-50 border border-gray-200 shadow-md rounded-xl p-6 custom-hover-border ">
-                <CardHeader className="text-gray-900 font-semibold">
-                  <CardTitle>Random jokes</CardTitle>
-                  <CardDescription>your random jokes</CardDescription>
-                </CardHeader>
-                <CardContent className="text-gray-700">
-                  {isClicked && data && (
-                    <div>
-                      <ul>
-                        {data.map((joke, index) => (
-                          <li key={index}>{joke.joke}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-
-
-            )}
-            </div>
-            
-            
-
+            <h2>{selectedSubcategory}</h2>
             <p className="text-lg text-gray-600">
               Welcome to the API documentation page. Below you will find code
               examples, animations, and your API access key.
@@ -227,24 +252,24 @@ fetch(url, options)
               API Information
             </h2>
             <p className="text-lg text-gray-700">
-              Welcome to the [API Name] documentation. Our API allows you to
+              {" "}
+              {selectedSidebarSubcategory?.api_info ||
+                `Welcome to the [API Name] documentation. Our API allows you to
               integrate powerful features into your applications, providing
               access to [describe the purpose of the API and its core features].
               Whether you're building a mobile app, a website, or any platform
               that requires seamless integration, our API is built to be fast,
-              secure, and reliable.
+              secure, and reliable.`}
             </p>
           </section>
 
           <section className="px-6 py-2">
             <h2 className="text-2xl font-bold text-indigo-600 mb-4">
-              {localStorage.getItem("userEmail")
-                ? "Your API Access Key"
-                : "Login to Get Your API Key"}
+              Your API Access Key
             </h2>
-            {localStorage.getItem("userEmail") ? (
+            {accessKey ? (
               <div className="bg-gray-200 p-4 rounded-lg flex justify-between">
-                <strong>Access Key: 1234567890</strong>
+                <strong>{accessKey}</strong>
                 <button onClick={handleCopyAccessKey}>
                   {isCopyAccessKey ? (
                     <Check size={20} />
@@ -256,8 +281,8 @@ fetch(url, options)
             ) : (
               <div className="bg-gray-200 p-4 rounded-lg">
                 <button
-                  onClick={() => router.push("/logIn")}
-                  className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition"
+                  className="bg-indigo-600 text-white px-4 py-2 rounded-md"
+                  onClick={handleLoginClick}
                 >
                   Login
                 </button>
@@ -270,10 +295,9 @@ fetch(url, options)
             <div className="bg-gray-200 p-4 rounded-lg flex justify-between">
               <strong>
                 {" "}
-                url =
-                {selectedSubcategory || url
-                  ? selectedSubcategory || url
-                  : "https://www.example.com/"}
+                {selectedSidebarSubcategory?.api_url
+                  ? `http://localhost:5000${selectedSidebarSubcategory?.api_url}`
+                  : `https://www.example.com/`}
               </strong>
               <button onClick={handleCopyUrl}>
                 {isCopyUrl ? <Check size={20} /> : <Clipboard size={20} />}
@@ -291,8 +315,10 @@ fetch(url, options)
             </p>
             <ul className="list-disc pl-8 space-y-2 text-gray-700">
               <li>
-                <strong>GET</strong>: Used to retrieve data from the server.
-                Example: <code>GET /users</code>
+                Example:{" "}
+                <strong>
+                  <code>{selectedSidebarSubcategory?.supported_api_types}</code>
+                </strong>
               </li>
             </ul>
           </section>
@@ -355,11 +381,7 @@ fetch(url, options)
               Example JSON Payload
             </h3>
             <pre className="bg-gray-800 text-white p-4 rounded-lg">
-              <code>{`{
-  "username": "john_doe",
-  "email": "john.doe@example.com",
-  "password": "securePassword123"
-}`}</code>
+              <code>{selectedSidebarSubcategory?.expected_body_type}</code>
             </pre>
           </section>
 
@@ -423,7 +445,9 @@ fetch(url, options)
               <div className="flex justify-end space-x-4 mt-8">
                 <button
                   className="bg-indigo-600 text-white py-1 px-3 rounded-lg"
-                  onClick={handleTryIt}
+                  onClick={() =>
+                    handleTryIt(selectedSidebarSubcategory?.api_url || "")
+                  }
                 >
                   Try It
                 </button>
@@ -440,9 +464,12 @@ fetch(url, options)
           </section>
 
           {showJson && (
-            <div className="h-96 mt-6 bg-gray-800 p-6 rounded-lg overflow-y-auto relative flex flex-col">
+            <div className="h-96 mt-6 mx-6 bg-gray-800 p-6 rounded-lg overflow-y-auto relative flex flex-col">
               <div className="flex justify-end sticky top-2">
-                <button className="text-white" onClick={handleJSONCopy}>
+                <button
+                  className="text-white"
+                  onClick={() => handleJSONCopy(JSONdata)}
+                >
                   {" "}
                   {JSONCopied ? (
                     <Check className="w-6 h-6" />
@@ -452,13 +479,13 @@ fetch(url, options)
                 </button>
                 <button
                   className="bg-white px-4 py-2 rounded-lg ml-2"
-                  onClick={handleFullResponse}
+                  onClick={() => handleFullResponse(JSONdata)}
                 >
                   Full Response
                 </button>
               </div>
               <pre className="text-white">
-                {JSON.stringify(dummyData, null, 2)}
+                {JSON.stringify(JSONdata, null, 2)}
               </pre>
             </div>
           )}
