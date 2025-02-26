@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import usePostRequest from "../../app/services/postApi"; // Import the usePostRequest hook
-import dynamic from "next/dynamic";
 import Login from "../ui/logIn";
 
 interface SignUpFormData {
@@ -15,20 +14,19 @@ interface SignUpFormData {
 }
 
 export default function SignUp({ setShowSignUp }) {
-
   const [formData, setFormData] = useState<SignUpFormData>({
-    firstName: '',
-    lastName: '',
-    email: '',
-    otp: '',
-    password: '',
-    profession: ''
+    firstName: "",
+    lastName: "",
+    email: "",
+    otp: "",
+    password: "",
+    profession: "",
   });
-  
-  const [showLogin, setShowLogin] = useState(false); // Manage Login view
 
-  // Initialize the usePostRequest hook
-  const { mutate, isLoading, isError, error } = usePostRequest('/signUpUser');  // URL passed here
+  const [showLogin, setShowLogin] = useState(false);
+  const [error, setError] = useState("");
+
+  const { mutate } = usePostRequest("/signUpUser");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -37,38 +35,50 @@ export default function SignUp({ setShowSignUp }) {
   const handleSignUp = (e) => {
     e.preventDefault();
     // Basic validation
-    if (Object.values(formData).every(field => field.trim() !== '')) {
+    if (Object.values(formData).every((field) => field.trim() !== "")) {
       mutate(formData, {
         onSuccess: (data) => {
-          alert('Sign Up successful!');
-          localStorage.setItem("user", JSON.stringify(data.data));
-          setShowSignUp(false); // Close modal after successful sign-up
-          // localStorage.setItem("user", JSON.stringify(data));
+          if (data.status) {
+            localStorage.setItem("user", JSON.stringify(data.data));
+            setShowSignUp(false); // Close modal after successful sign-up
+          } else {
+            console.log(data.message);
+            setError(data.message);
+          }
         },
         onError: (error) => {
-          alert(`Error: ${error.message}`);
           console.log("Error: ", error);
-        }
+        },
       });
     } else {
-      alert('Please fill in all fields.');
+      alert("Please fill in all fields.");
     }
   };
 
   return (
     <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center">
       <div className="bg-white p-6 rounded-2xl shadow-lg w-full max-w-md box-border relative">
-        
         {/* Cross Button */}
         <button
           onClick={() => setShowSignUp(false)}
           className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
-        
+
         {showLogin ? (
           <Login setShowLogin={setShowLogin} /> // Render Login component if showLogin is true
         ) : (
@@ -80,7 +90,10 @@ export default function SignUp({ setShowSignUp }) {
               {/* First Name & Last Name Fields */}
               <div className="flex space-x-4">
                 <div className="w-1/2">
-                  <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="firstName"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     First Name
                   </label>
                   <input
@@ -95,7 +108,10 @@ export default function SignUp({ setShowSignUp }) {
                   />
                 </div>
                 <div className="w-1/2">
-                  <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="lastName"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Last Name
                   </label>
                   <input
@@ -113,9 +129,17 @@ export default function SignUp({ setShowSignUp }) {
 
               {/* Email Field */}
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                  Email Address
-                </label>
+                <div className="flex justify-between items-center">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Email Address
+                  </label>
+                  {error && (
+                    <span className="text-red-600 text-sm">{error}</span>
+                  )}
+                </div>
                 <input
                   type="email"
                   id="email"
@@ -130,7 +154,10 @@ export default function SignUp({ setShowSignUp }) {
 
               {/* OTP Field */}
               <div>
-                <label htmlFor="otp" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="otp"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   OTP
                 </label>
                 <input
@@ -147,7 +174,10 @@ export default function SignUp({ setShowSignUp }) {
 
               {/* Password Field */}
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Password
                 </label>
                 <input
@@ -164,7 +194,10 @@ export default function SignUp({ setShowSignUp }) {
 
               {/* Profession Field */}
               <div>
-                <label htmlFor="profession" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="profession"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Profession
                 </label>
                 <input
@@ -182,7 +215,7 @@ export default function SignUp({ setShowSignUp }) {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full px-4 py-2 text-white bg-primary rounded-lg shadow hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                className="w-full px-4 py-2 text-white bg-primary rounded-lg shadow hover:bg-darkPrimary focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
               >
                 Sign Up
               </button>

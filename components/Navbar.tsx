@@ -72,10 +72,10 @@ const Navbar: React.FC<NavbarProps> = ({ handleSubcategoryClick }) => {
               <NavigationMenu>
                 <NavigationMenuList className="flex text-black font-medium justify-between w-full max-w-lg mx-auto">
                   <NavigationMenuItem className="flex-grow text-center ">
-                    <NavigationMenuTrigger className=" hover:text-white transition-colors">
+                    <NavigationMenuTrigger className="text-white">
                       APIs
                     </NavigationMenuTrigger>
-                    <NavigationMenuContent className="absolute left-0 bg-accent shadow-md rounded-lg z-50 w-[800px]">
+                    <NavigationMenuContent className="absolute left-0 bg-primary shadow-md rounded-lg z-50 w-[800px]">
                     <div className="w-[800px] p-6">
                         <h3 className="text-black text-lg font-semibold mb-2 text-center">
                           APIs TO LOOK UP
@@ -100,9 +100,9 @@ const Navbar: React.FC<NavbarProps> = ({ handleSubcategoryClick }) => {
                                 onClick={() =>
                                   handleSubcategoryClick(subcategory)
                                 }
-                                className="bg-primary rounded-lg mt-2 shadow-sm border border-gray-200 hover:shadow-lg transition-shadow duration-300 text-center"
+                                className="bg-white rounded-lg mt-2 shadow-sm border border-gray-200 hover:shadow-lg transition-shadow duration-300 text-center"
                               >
-                                <p className="text-white font-small">
+                                <p className="text-black font-small">
                                   {subcategory.name}
                                 </p>
                               </div>
@@ -116,7 +116,7 @@ const Navbar: React.FC<NavbarProps> = ({ handleSubcategoryClick }) => {
                   <NavigationMenuItem className="flex-grow text-center">
                     <Link
                       href="/pricing"
-                      className="text-accent hover:text-white transition-colors mr-3"
+                      className="text-white hover:text-gray-300 transition-colors mr-3"
                     >
                       Pricing
                     </Link>
@@ -125,7 +125,7 @@ const Navbar: React.FC<NavbarProps> = ({ handleSubcategoryClick }) => {
                   <NavigationMenuItem className="flex-grow text-center">
                     <Link
                       href="/documentation"
-                      className="text-accent hover:text-white transition-colors mx-3"
+                      className="text-white hover:text-gray-300 transition-colors mx-3"
                     >
                       Docs
                     </Link>
@@ -135,7 +135,7 @@ const Navbar: React.FC<NavbarProps> = ({ handleSubcategoryClick }) => {
                     <Link
                       href="https://blogswipe-shivank63s-projects.vercel.app/"
                       target="_blank"
-                      className="text-accent hover:text-white transition-colors mx-3"
+                      className="text-white hover:text-gray-300 transition-colors mx-3"
                     >
                       Blogs
                     </Link>
@@ -144,7 +144,7 @@ const Navbar: React.FC<NavbarProps> = ({ handleSubcategoryClick }) => {
                   <NavigationMenuItem className="flex-grow text-center">
                     <Link
                       href="/contactUs"
-                      className="text-accent hover:text-white transition-colors mr-3"
+                      className="text-white hover:text-gray-300 transition-colors mr-3"
                     >
                       Contact Us
                     </Link>
@@ -156,14 +156,14 @@ const Navbar: React.FC<NavbarProps> = ({ handleSubcategoryClick }) => {
             {/* Conditional display of first letter if logged in */}
             {firstName ? (
               <Link href="/profile">
-                <span className="ml-auto bg-purple-600 text-white rounded-full w-8 h-8 flex items-center justify-center">
+                <span className="ml-auto bg-purple-800 text-white rounded-full w-8 h-8 flex items-center justify-center">
                   {extractFirstLetter(firstName)}
                 </span>
               </Link>
             ) : (
               <button
                 onClick={() => setShowLogin(true)}
-                className="ml-auto text-accent hover:text-white transition-colors"
+                className="ml-auto text-white hover:text-gray-300 transition-colors"
               >
                 Log in
               </button>

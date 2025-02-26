@@ -12,7 +12,7 @@ export default function HeroSection() {
       const [showSignUp, setShowSignUp] = useState(false);
       const [modalPosition, setModalPosition] = useState("top-right"); // default position
 
-    
+     
   return (
     <section className="flex flex-col md:flex-row items-center justify-between px-6 md:px-24 mt-2 mb-16 bg-white">
       <div className="max-w-4xl">

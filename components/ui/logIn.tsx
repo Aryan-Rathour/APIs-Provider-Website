@@ -9,7 +9,7 @@ export default function Login({ setShowLogin = () => {} }) {
   });
 
   const [showSignUp, setShowSignUp] = useState(false); // Manage SignUp view
-  const { mutate } = usePostRequest('/login');
+  const { mutate } = usePostRequest('/userlogin');
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -103,7 +103,7 @@ export default function Login({ setShowLogin = () => {} }) {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full px-4 py-2 text-white bg-primary rounded-lg shadow hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                className="w-full px-4 py-2 text-white bg-primary rounded-lg shadow hover:bg-darkPrimary focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
               >
                 Login
               </button>

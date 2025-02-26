@@ -28,7 +28,7 @@ export default function ContactUs() {
       {/* Contact Form & Info */}
       <div className="max-w-7xl mx-auto px-6 mt-12 grid grid-cols-1 md:grid-cols-2 gap-12">
         {/* Contact Information */}
-        <div className="flex flex-col justify-center space-y-8">
+        <div className="flex flex-col justify-center space-y-16">
           <div className="space-y-4">
             <h2 className="text-2xl font-semibold ">
               Contact Information

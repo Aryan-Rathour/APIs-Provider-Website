@@ -27,7 +27,7 @@ export const categories = [
       {
         name: "Random Joke API",
         api_info: "Returns a random joke from various categories.",
-        api_url: "/random-joke",
+        api_url: "/randomJoke",
         supported_api_types: ["GET"],
         expected_body_type: "No request body required.",
       },
@@ -39,14 +39,7 @@ export const categories = [
       {
         name: "Products API",
         api_info: "Fetches a list of all available products.",
-        api_url: "/products",
-        supported_api_types: ["GET"],
-        expected_body_type: "No request body required.",
-      },
-      {
-        name: "Single Product API",
-        api_info: "Retrieves details of a single product by its ID.",
-        api_url: "/product/:id",
+        api_url: "/randomProduct",
         supported_api_types: ["GET"],
         expected_body_type: "No request body required.",
       },
@@ -100,7 +93,7 @@ export const categories = [
       {
         name: "Stock API",
         api_info: "Provides stock market data for various companies.",
-        api_url: "/stocks",
+        api_url: "/stocks/:symbol",
         supported_api_types: ["GET"],
         expected_body_type: "No request body required.",
       },
@@ -154,7 +147,7 @@ export const categories = [
       {
         name: "Password Generator",
         api_info: "Generates a secure random password of the specified length.",
-        api_url: "/generate-password?length=12",
+        api_url: "/generatePassword",
         supported_api_types: ["GET"],
         expected_body_type: "No request body required.",
       },
@@ -182,6 +175,27 @@ export const categories = [
         supported_api_types: ["GET"],
         expected_body_type: "No request body required.",
       },
+      {
+        name: "Song",
+        api_info: "Fetches a list of Song related to a specific query.",
+        api_url: "/song",
+        supported_api_types: ["GET"],
+        expected_body_type: "No request body required.",
+      },
+      {
+        name: "AudioSong",
+        api_info: "Fetches a list of AudioSong related to a specific query.",
+        api_url: "/audioSong",
+        supported_api_types: ["GET"],
+        expected_body_type: "No request body required.",
+      },
+      {
+        name: "VedioSong",
+        api_info: "Fetches a list of VedioSong related to a specific query.",
+        api_url: "/vedioSong",
+        supported_api_types: ["GET"],
+        expected_body_type: "No request body required.",
+      },
     ],
   },
   {
@@ -198,6 +212,37 @@ export const categories = [
         name: "Scientific Calculator",
         api_info: "Evaluates scientific expressions like trigonometric functions.",
         api_url: "/scientific-calculate?expression=sin(30)",
+        supported_api_types: ["GET"],
+        expected_body_type: "No request body required.",
+      },
+    ],
+  },
+  {
+    name: "Country",
+    subcategories: [
+      {
+        name: "Get All Countries",
+        api_info: "Performs basic arithmetic calculations.",
+        api_url: "/countries",
+        supported_api_types: ["GET"],
+        expected_body_type: "No request body required.",
+      },
+    ],
+  },
+  {
+    name: "User",
+    subcategories: [
+      {
+        name: "Get User Details",
+        api_info: "Fetches userDetails.",
+        api_url: "/userDetails",
+        supported_api_types: ["GET"],
+        expected_body_type: "No request body required.",
+      },
+      {
+        name: "User Fake Posts",
+        api_info: "Fake User Post.",
+        api_url: "/userPosts",
         supported_api_types: ["GET"],
         expected_body_type: "No request body required.",
       },

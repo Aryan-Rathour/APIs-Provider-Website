@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { ClipboardCopyIcon } from "@heroicons/react/outline"; // Import the icon
 import Transaction from "@/components/ui/transaction";
 import usePutMutation from "../app/services/putApi";
+import usePostRequest from "@/app/services/postApi";
 
 interface Profile {
   firstName: string;
@@ -20,13 +21,14 @@ export default function ProfilePage() {
     email: "",
     profession: "",
     accessKey: "",
-    profileImage: "/default-profile.png", // Default profile image
+    profileImage: "/default-profile.png",
   });
   const [isSaving, setIsSaving] = useState(false);
   const [errors, setErrors] = useState({});
   const [copyMessage, setCopyMessage] = useState<string>("");
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
-
+  const [storedUserData, setStoredUserData] = useState("");
+  const [userId, setUserId] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,22 +38,35 @@ export default function ProfilePage() {
     }));
   };
 
+  const { mutate: generateAccessKey } = usePostRequest("/genrateAccessKey");
+
   const handleGenerateAccessKey = () => {
-    const newAccessKey = Math.random().toString(36).substring(2, 15);
-    setProfile((prev) => ({ ...prev, accessKey: newAccessKey }));
+    console.log("userId  in fn." , userId)
+    generateAccessKey(
+      { userId: userId },
+      {
+        onSuccess: (data) => {
+          console.log("New access key:", data.accessKey);
+          setStoredUserData((prev) => ({ ...prev, accessKey: data.accessKey }));
+          alert("New Access Key Generated.");
+        },
+        onError: (error) => {
+          console.error(error);
+        },
+      }
+    );
   };
+  
 
   const handleCopyAccessKey = () => {
     navigator.clipboard.writeText(profile.accessKey);
-    setCopyMessage("Copied!"); // Show the "Copied!" message
+    setCopyMessage("Copied!");
     setTimeout(() => {
-      setCopyMessage(""); // Hide the "Copied!" message after 3 seconds
+      setCopyMessage("");
     }, 3000);
   };
 
-  const { mutate, isLoading, isError, data } = usePutMutation(
-    "http://localhost:5000/updateProfile"
-  );
+  const { mutate } = usePutMutation("http://localhost:5000/updateProfile");
 
   const handleSave = () => {
     const newErrors = {};
@@ -80,42 +95,53 @@ export default function ProfilePage() {
   };
 
   const handleLogoutClick = () => {
-    setShowLogoutDialog(true); // Show the dialog
+    setShowLogoutDialog(true);
   };
-  
 
   const handleLogout = () => {
     localStorage.removeItem("user");
-    setShowLogoutDialog(false); // Close the dialog
-  }
+    setShowLogoutDialog(false);
+  };
+
+  useEffect(() => {
+    const storedUserString = localStorage.getItem("user");
+    if (storedUserString) {
+      const storedUser = JSON.parse(storedUserString);
+      console.log("storedUser after parsing", storedUser);
+      setStoredUserData(storedUser);
+      setUserId(storedUser._id);
+      console.log("userid in useeffect", userId);
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log("Updated userId:", userId);
+  }, [userId]);
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center py-20">
       <div className="w-full max-w-4xl p-10 mx-6">
         <div className="flex items-center justify-between mb-6">
-          {/* Profile Image */}
           <div className="flex items-center">
             <div className="w-24 h-24 flex items-center justify-center overflow-hidden rounded-full">
               <Image
-                src="/profile.jpg"
+                src="/profile.png"
                 alt="Profile"
-                layout="intrinsic" // Keeps the natural aspect ratio while resizing
-                width={96} // Adjust the width as needed
-                height={96} // Adjust the height as needed
-                objectFit="cover" // Ensures the image covers the container without distortion
-                className="border-4 border-purple-500"
+                layout="intrinsic"
+                width={96}
+                height={96}
+                objectFit="cover"
               />
             </div>
           </div>
 
-          {/* Access Key Section aligned to the right */}
           <div className="flex items-center space-x-4 ml-auto">
             <div>
               <p className="text-lg font-semibold text-gray-700">Access Key</p>
               <div className="relative flex items-center">
                 <input
                   type="text"
-                  value={profile.accessKey || "N/A"}
+                  value={storedUserData.accessKey || "N/A"}
                   readOnly
                   className="w-96 px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 truncate"
                 />
@@ -135,7 +161,7 @@ export default function ProfilePage() {
             </div>
             <button
               onClick={handleGenerateAccessKey}
-              className="px-4 py-2 mt-6 bg-purple-500 text-white rounded-lg hover:bg-purple-600"
+              className="px-4 py-2 mt-6 bg-primary text-white rounded-lg hover:bg-darkPrimary"
             >
               Generate Access Key
             </button>
@@ -223,34 +249,40 @@ export default function ProfilePage() {
             )}
           </div>
           <div>
-            <button className="bg-red-500 px-4 py-2 border rounded-lg text-white" onClick={handleLogoutClick}
-            > Log out</button>
+            <button
+              className="bg-red-600 px-4 py-2 border rounded-lg text-white hover:bg-red-700"
+              onClick={handleLogoutClick}
+            >
+              {" "}
+              Log out
+            </button>
           </div>
         </div>
         {showLogoutDialog && (
-  <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
-    <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
-      <h3 className="text-lg font-semibold text-gray-700">Are you sure you want to log out?</h3>
-      <div className="mt-4 flex justify-end space-x-4">
-        <button
-          onClick={() => setShowLogoutDialog(false)} // Close the dialog without logging out
-          className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
-        >
-          Cancel
-        </button>
-        <button
-          onClick={handleLogout} // Perform logout and close the dialog
-          className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-        >
-          Log out
-        </button>
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+              <h3 className="text-lg font-semibold text-gray-700">
+                Are you sure you want to log out?
+              </h3>
+              <div className="mt-4 flex justify-end space-x-4">
+                <button
+                  onClick={() => setShowLogoutDialog(false)}
+                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                >
+                  Log out
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-    </div>
-  </div>
-)}
-
-      </div>
-      <Transaction />
+      {/* <Transaction /> */}
     </div>
   );
 }

@@ -27,14 +27,14 @@ const Transaction = () => {
       {/* Scrollable table container */}
       <div className="overflow-y-auto max-h-96 shadow-md rounded-lg border">
         <table className="min-w-full bg-white">
-          <thead className="bg-purple-500 sticky top-0">
+          <thead className="bg-gray-700 sticky top-0">
             <tr>
-              <th className="py-2 px-4 text-left">Transaction ID</th>
+              <th className="py-2 px-4 text-left text-white">Transaction ID</th>
               <th className="py-2 px-4 text-left">
                 <select
                   value={apiType}
                   onChange={(e) => setApiType(e.target.value)}
-                  className="border bg-purple-500 px-4 py-2 rounded-lg"
+                  className="border bg-primary px-4 py-2 rounded-lg"
                 >
                   <option value="">Select API Type</option>
                   <option value="GET">GET</option>
@@ -48,7 +48,7 @@ const Transaction = () => {
                 <select
                   value={status}
                   onChange={(e) => setStatus(e.target.value)}
-                  className="bg-purple-500 border px-4 py-2 rounded-lg"
+                  className="bg-primary border px-4 py-2 rounded-lg"
                 >
                   <option value="">Select Status</option>
                   <option value="SUCCESS">SUCCESS</option>
@@ -60,10 +60,10 @@ const Transaction = () => {
                   type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  className="bg-purple-500 border px-4 py-2 rounded-lg"
+                  className="bg-primary border px-4 py-2 rounded-lg"
                 />
               </th>
-              <th className="py-2 px-4 text-left">Amount</th>
+              <th className="py-2 px-4 text-left text-white">Amount</th>
             </tr>
           </thead>
           <tbody>

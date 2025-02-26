@@ -120,6 +120,7 @@ fetch(url, options)
   const { data: JSONdata, refetch } = useFetchData(selectedApiUrl);
 
   const handleTryIt = (api: string) => {
+    console.log("tryit",api)
     if (api) {
       setSelectedApiUrl(`${api}`);
 
