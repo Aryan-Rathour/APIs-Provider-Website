@@ -11,6 +11,7 @@ module.exports = {
         darkPrimary:'#D75221',
         complementary: '#259BEF',
         accent: '#EF5B25',
+        'soft-purple':' #d6b4fc',
         'soft-blue': '#4A90E2',
         'sky-blue': '#4A90E2',
         'dark-gray': '#333333',

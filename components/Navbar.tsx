@@ -75,7 +75,7 @@ const Navbar: React.FC<NavbarProps> = ({ handleSubcategoryClick }) => {
                     <NavigationMenuTrigger className="text-white">
                       APIs
                     </NavigationMenuTrigger>
-                    <NavigationMenuContent className="absolute left-0 bg-primary shadow-md rounded-lg z-50 w-[800px]">
+                    <NavigationMenuContent className="absolute left-0 bg-soft-purple shadow-md rounded-lg z-50 w-[800px]">
                     <div className="w-[800px] p-6">
                         <h3 className="text-black text-lg font-semibold mb-2 text-center">
                           APIs TO LOOK UP
