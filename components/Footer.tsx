@@ -2,11 +2,12 @@ import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
 
-  const handleSubscribe = (e) => {
+  const handleSubscribe = (e: React.FormEvent<HTMLFormElement>) => {
     setEmail("");
     e.preventDefault();
     toast.success("Subscribed successfully!", {
@@ -46,29 +47,29 @@ export default function Footer() {
           </h3>
           <ul className="space-y-2 text-sm">
             <li>
-              <a href="/pricing" className="hover:text-gray-500">
+              <Link href="/pricing" className="hover:text-gray-500">
                 Pricing
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/docs" className="hover:text-gray-500">
+              <Link href="/docs" className="hover:text-gray-500">
                 Documentation
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/apis" className="hover:text-gray-500">
+              <Link href="/apis" className="hover:text-gray-500">
                 APIs
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/blogs" className="hover:text-gray-500">
+              <Link href="/blogs" className="hover:text-gray-500">
                 Blogs
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/contactUs" className="hover:text-gray-500">
+              <Link href="/contactUs" className="hover:text-gray-500">
                 Contact Us
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -80,29 +81,29 @@ export default function Footer() {
           </h3>
           <ul className="space-y-2 text-sm">
             <li>
-              <a href="/pricing" className="hover:text-gray-500">
+              <Link href="/pricing" className="hover:text-gray-500">
                 Public APIs
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/docs" className="hover:text-gray-500">
+              <Link href="/docs" className="hover:text-gray-500">
                 SpaceX API
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/apis" className="hover:text-gray-500">
+              <Link href="/apis" className="hover:text-gray-500">
                 Instagram Graph API
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/blogs" className="hover:text-gray-500">
+              <Link href="/blogs" className="hover:text-gray-500">
                 DeepAI API
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/contactUs" className="hover:text-gray-500">
+              <Link href="/contactUs" className="hover:text-gray-500">
                 Yahoo Finance API
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
